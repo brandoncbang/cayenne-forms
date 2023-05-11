@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class UserInvitationTest extends TestCase
+class InviteUserTest extends TestCase
 {
     use RefreshDatabase;
 
