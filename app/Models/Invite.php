@@ -33,14 +33,6 @@ class Invite extends Model
         $query->whereNull('user_id');
     }
 
-    /**
-     * Get the route key for the model.
-     */
-    public function getRouteKeyName(): string
-    {
-        return 'code';
-    }
-
     public function hasBeenUsed(): bool
     {
         return ! is_null($this->user_id);

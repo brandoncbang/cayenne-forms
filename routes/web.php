@@ -26,7 +26,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/invites/{invite}', [InviteController::class, 'show'])->name('invites.show');
+Route::get('/invites/{invite:code}', [InviteController::class, 'show'])->name('invites.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
