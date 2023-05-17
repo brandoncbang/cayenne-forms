@@ -5,9 +5,7 @@ namespace Tests\Feature;
 use App\Models\Invite;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
-use Inertia\Testing\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invite;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class InviteController extends Controller
