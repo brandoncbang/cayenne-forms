@@ -1,6 +1,8 @@
 <x-mail::message>
 # {{ __('You have been invited to manage your website\'s forms on :app!', ['app' => config('app.name')]) }}
 
+{{ __('Click the link below to start creating your account.') }}
+
 <x-mail::button :url="route('invites.show', ['invite' => $invite])">
 {{ __('Accept Invite') }}
 </x-mail::button>
