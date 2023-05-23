@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -26,16 +27,29 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/invites/{invite:code}', [InviteController::class, 'show'])->name('invites.show');
+//Route::post('/f/{form:uuid}', [FormEntryController::class, 'store'])->name('forms.entries.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/forms', [FormController::class, 'index'])->name('forms.index');
+    Route::get('/forms/create', [FormController::class, 'create'])->name('forms.create');
+    Route::post('/forms', [FormController::class, 'store'])->name('forms.store');
+    Route::get('/forms/{form:uuid}/edit', [FormController::class, 'edit'])->name('forms.edit');
+    Route::patch('/forms/{form:uuid}/update', [FormController::class, 'update'])->name('forms.update');
+    Route::delete('/forms/{form:uuid}', [FormController::class, 'destroy'])->name('forms.destroy');
+
+//    Route::get('/forms/{form:uuid}/entries', [EntryController::class, 'index'])->name('forms.entries.index');
+//    Route::patch('/entries/{entry:uuid}', [EntryController::class, 'update'])->name('entries.update');
+//    Route::delete('/entries/{entry:uuid}', [EntryController::class, 'destroy'])->name('entries.destroy');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/invites/{invite:code}', [InviteController::class, 'show'])->name('invites.show');
 
 require __DIR__.'/auth.php';
