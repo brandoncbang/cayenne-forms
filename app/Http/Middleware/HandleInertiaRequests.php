@@ -31,6 +31,18 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
+            'navigation' => [
+                [
+                    'name' => __('Dashboard'),
+                    'href' => route('dashboard'),
+                    'current' => $request->route()->named('dashboard'),
+                ],
+                [
+                    'name' => __('Forms'),
+                    'href' => route('forms.index'),
+                    'current' => $request->route()->named('forms.*'),
+                ],
+            ],
             'auth' => [
                 'user' => $request->user(),
             ],
