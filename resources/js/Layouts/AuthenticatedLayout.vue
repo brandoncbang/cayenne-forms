@@ -1,10 +1,16 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
-import { Link } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+
+defineProps({
+    title: String,
+});
 </script>
 
 <template>
+    <Head :title="title" />
+
     <div class="min-h-full">
         <Disclosure as="nav" class="bg-white shadow-sm" v-slot="{ open }">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

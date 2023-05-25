@@ -1,5 +1,5 @@
 <script setup>
-import {Head, Link, useForm} from "@inertiajs/vue3";
+import { Link, useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import CardsForm from "@/Components/Dashboard/CardsForm.vue";
 import CardsFormSection from "@/Components/Dashboard/CardsFormSection.vue";
@@ -19,9 +19,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthenticatedLayout>
-        <Head title="Create a Form" />
-
+    <AuthenticatedLayout title="Create a Form">
         <CardsForm @submit.prevent="submit">
             <CardsFormSection title="Form Overview">
                 <template #description>
