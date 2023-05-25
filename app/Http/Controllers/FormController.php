@@ -33,6 +33,8 @@ class FormController extends Controller
                     'required', 'max:255',
                     Rule::unique('forms')->where(fn (Builder $query) => $query->where('user_id', $request->user()->id)),
                 ],
+                'sends_notifications' => ['required', 'boolean'],
+                'honeypot_field' => ['nullable', 'max:255'],
             ]),
         );
 

@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
             $table->uuid()->unique();
+            $table->string('name');
+            $table->boolean('sends_notifications')->default(true);
+            $table->string('honeypot_field')->nullable();
             $table->timestamps();
         });
     }

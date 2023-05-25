@@ -12,6 +12,15 @@ class Form extends Model
     use HasFactory, HasUuids;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'sends_notifications' => 'boolean',
+    ];
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<string>
@@ -25,6 +34,8 @@ class Form extends Model
      */
     protected $fillable = [
         'name',
+        'sends_notifications',
+        'honeypot_field',
     ];
 
     /**
