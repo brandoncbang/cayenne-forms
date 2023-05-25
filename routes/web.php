@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EntryController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\ProfileController;
@@ -41,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/forms/{form:uuid}/update', [FormController::class, 'update'])->name('forms.update');
     Route::delete('/forms/{form:uuid}', [FormController::class, 'destroy'])->name('forms.destroy');
 
-//    Route::get('/forms/{form:uuid}/entries', [EntryController::class, 'index'])->name('forms.entries.index');
+    Route::get('/forms/{form:uuid}/entries', [EntryController::class, 'index'])->name('forms.entries.index');
 //    Route::patch('/entries/{entry:uuid}', [EntryController::class, 'update'])->name('entries.update');
 //    Route::delete('/entries/{entry:uuid}', [EntryController::class, 'destroy'])->name('entries.destroy');
 
