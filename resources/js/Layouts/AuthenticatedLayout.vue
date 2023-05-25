@@ -3,6 +3,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { Head, Link } from '@inertiajs/vue3';
 import InitialsAvatar from "@/Components/Dashboard/InitialsAvatar.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 defineProps({
     title: String,
@@ -18,16 +19,8 @@ defineProps({
                 <div class="flex h-16 justify-between">
                     <div class="flex">
                         <div class="flex flex-shrink-0 items-center">
-                            <img
-                                class="block h-8 w-auto lg:hidden"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                alt="Your Company"
-                            />
-                            <img
-                                class="hidden h-8 w-auto lg:block"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                alt="Your Company"
-                            />
+                            <ApplicationLogo class="h-8 w-8" aria-hidden="true" />
+                            <span class="sr-only">{{ $page.props.app.name }}</span>
                         </div>
                         <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                             <Link

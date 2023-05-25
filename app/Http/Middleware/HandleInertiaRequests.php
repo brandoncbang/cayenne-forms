@@ -31,6 +31,12 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
+            'app' => [
+                'name' => config('app.name'),
+            ],
+            'auth' => [
+                'user' => $request->user(),
+            ],
             'navigation' => [
                 [
                     'name' => __('Dashboard'),
@@ -42,9 +48,6 @@ class HandleInertiaRequests extends Middleware
                     'href' => route('forms.index'),
                     'current' => $request->route()->named('forms.*'),
                 ],
-            ],
-            'auth' => [
-                'user' => $request->user(),
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
