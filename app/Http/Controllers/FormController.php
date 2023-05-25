@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -28,11 +29,14 @@ class FormController extends Controller
     {
         $form = $request->user()->forms()->create(
             $request->validate([
-                'name' => ['required', 'max:255', 'unique:forms'],
+                'name' => [
+                    'required', 'max:255',
+                    Rule::unique('forms')->where(fn (Builder $query) => $query->where('user_id', $request->user()->id)),
+                ],
             ]),
         );
 
-        return redirect()->route('forms.show', ['form' => $form]);
+        return redirect()->route('forms.entries.index', ['form' => $form]);
     }
 
     public function edit(Form $form): Response

@@ -48,7 +48,7 @@ class CreateFormTest extends TestCase
 
         $form = Form::first();
 
-        $response->assertRedirect("/forms/{$form->uuid}");
+        $response->assertRedirect("/forms/{$form->uuid}/entries");
 
         $this->assertEquals('Contact Page', $form->name);
         $this->assertTrue($form->user->is($user));
@@ -98,5 +98,28 @@ class CreateFormTest extends TestCase
         $response->assertSessionHasErrors(['name']);
 
         $this->assertDatabaseCount(Form::class, 1);
+    }
+
+    #[Test]
+    public function name_is_only_unique_per_user()
+    {
+        [$userA, $userB] = User::factory()->count(2)->create();
+
+        $formA = $userA->forms()->create([
+            'name' => 'Contact Page',
+        ]);
+
+        $response = $this
+            ->actingAs($userB)
+            ->post('/forms', [
+                'name' => 'Contact Page',
+            ]);
+
+        $formB = Form::latest('id')->first();
+
+        $response->assertRedirect("/forms/{$formB->uuid}/entries");
+
+        $this->assertEquals($formA->name, $formB->name);
+        $this->assertFalse($formB->is($formA));
     }
 }
