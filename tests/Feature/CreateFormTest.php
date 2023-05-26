@@ -34,7 +34,7 @@ class CreateFormTest extends TestCase
     }
 
     #[Test]
-    public function user_can_create_form()
+    public function user_can_create_a_form()
     {
         $user = User::factory()->create();
 
@@ -136,7 +136,7 @@ class CreateFormTest extends TestCase
     }
 
     #[Test]
-    public function honeypot_field_is_nullable()
+    public function honeypot_field_is_optional()
     {
         $user = User::factory()->create();
 
