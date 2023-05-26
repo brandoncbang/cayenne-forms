@@ -23,7 +23,10 @@ const submit = () => {
         <CardsForm @submit.prevent="submit">
             <CardsFormSection title="Form Overview">
                 <template #description>
-                    <p>Creating a form endpoint will let you receive and view form entries from your website.</p>
+                    <p>
+                        Creating a form will give you an endpoint that lets you receive and view form entries from your
+                        website.
+                    </p>
                 </template>
 
                 <TextField
@@ -56,7 +59,7 @@ const submit = () => {
 
             <CardsFormSection title="Advanced" class="pt-10">
                 <template #description>
-                    <p>Set up more advanced form endpoint settings, such as spam management.</p>
+                    <p>Set up more advanced form settings, such as spam management.</p>
                 </template>
 
                 <TextField
