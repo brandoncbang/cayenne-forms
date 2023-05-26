@@ -2,12 +2,15 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { Head, Link } from '@inertiajs/vue3';
-import InitialsAvatar from "@/Components/Dashboard/InitialsAvatar.vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import InitialsAvatar from '@/Components/Dashboard/InitialsAvatar.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { useSlots } from 'vue';
 
 defineProps({
     title: String,
 });
+
+const slots = useSlots();
 </script>
 
 <template>
@@ -127,10 +130,15 @@ defineProps({
 
         <div class="py-10">
             <header>
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-                        {{ title }}
-                    </h1>
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+                    <div class="min-w-0 flex-1">
+                        <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:truncate">
+                            {{ title }}
+                        </h1>
+                    </div>
+                    <div v-if="slots.actions" class="mt-4 flex md:ml-4 md:mt-0">
+                        <slot name="actions" />
+                    </div>
                 </div>
             </header>
             <main>
