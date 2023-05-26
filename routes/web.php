@@ -28,7 +28,7 @@ Route::get('/', function () {
     ]);
 });
 
-//Route::post('/f/{form:uuid}', [FormEntryController::class, 'store'])->name('forms.entries.store');
+Route::post('/f/{form:uuid}', [EntryController::class, 'store'])->name('forms.entries.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

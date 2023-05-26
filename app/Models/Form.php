@@ -25,7 +25,7 @@ class Form extends Model
      *
      * @var array<string>
      */
-    protected $hidden = ['id'];
+    protected $hidden = ['id', 'user_id'];
 
     /**
      * The attributes that are mass assignable.

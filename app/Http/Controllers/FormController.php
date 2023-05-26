@@ -13,7 +13,7 @@ class FormController extends Controller
 {
     public function index(Request $request): Response
     {
-        $forms = $request->user()->forms;
+        $forms = $request->user()->forms()->paginate(8)->onEachSide(2);
 
         return inertia('Forms/Index', [
             'forms' => $forms,
