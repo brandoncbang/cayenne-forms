@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,16 +42,35 @@ class FormController extends Controller
         return redirect()->route('forms.entries.index', ['form' => $form]);
     }
 
+    /** @throws AuthorizationException */
     public function edit(Form $form): Response
     {
+        $this->authorize('update', $form);
+
         return inertia('Forms/Edit', [
             'form' => $form,
         ]);
     }
 
-    public function update(Request $request, Form $form)
+    /** @throws AuthorizationException */
+    public function update(Request $request, Form $form): RedirectResponse
     {
-        //
+        $this->authorize('update', $form);
+
+        $form->update(
+            $request->validate([
+                'name' => [
+                    'required', 'max:255',
+                    Rule::unique('forms')
+                        ->where(fn (Builder $query) => $query->where('user_id', $request->user()->id))
+                        ->ignore($form),
+                ],
+                'sends_notifications' => ['required', 'boolean'],
+                'honeypot_field' => ['nullable', 'max:255'],
+            ]),
+        );
+
+        return redirect()->route('forms.entries.index', ['form' => $form]);
     }
 
     public function destroy(Form $form)
