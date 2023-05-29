@@ -44,7 +44,6 @@ const submit = () => {
                     label="Send Notifications"
                     description="Get notified via email when a new form entry is submitted."
                     :error="form.errors.sends_notifications"
-                    required
                 />
 
                 <template #actions>
