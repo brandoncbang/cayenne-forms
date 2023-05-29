@@ -34,6 +34,7 @@ class Form extends Model
      */
     protected $fillable = [
         'name',
+        'success_url',
         'sends_notifications',
         'honeypot_field',
     ];

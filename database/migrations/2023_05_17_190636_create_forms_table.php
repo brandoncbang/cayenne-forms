@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->uuid()->unique();
             $table->string('name');
+            $table->string('success_url')->nullable();
             $table->boolean('sends_notifications')->default(true);
             $table->string('honeypot_field')->nullable();
             $table->timestamps();

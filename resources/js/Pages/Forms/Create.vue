@@ -9,6 +9,7 @@ import PrimaryButton from "@/Components/Dashboard/PrimaryButton.vue";
 
 const form = useForm({
     name: '',
+    success_url: '',
     sends_notifications: true,
     honeypot_field: '',
 });
@@ -36,6 +37,16 @@ const submit = () => {
                     :error="form.errors.name"
                     autocomplete="off"
                     required
+                />
+
+                <TextField
+                    v-model="form.success_url"
+                    id="success_url"
+                    label="Success URL (optional)"
+                    description="Users will be redirected to this URL after their form entry is received. A default page will be shown if this is left blank."
+                    :error="form.errors.success_url"
+                    placeholder="https://example.com/success.html"
+                    autocomplete="off"
                 />
 
                 <CheckboxField

@@ -61,6 +61,7 @@ class UpdateFormTest extends TestCase
     {
         $form = Form::factory()->create([
             'name' => 'Contact Us Page',
+            'success_url' => 'https://example.com/success.html',
             'sends_notifications' => false,
             'honeypot_field' => null,
         ]);
@@ -69,6 +70,7 @@ class UpdateFormTest extends TestCase
             ->actingAs($form->user)
             ->patch("/forms/{$form->uuid}", [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/contact/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -78,6 +80,7 @@ class UpdateFormTest extends TestCase
         $response->assertRedirect("/forms/{$form->uuid}/entries");
 
         $this->assertEquals('Contact Page', $form->name);
+        $this->assertEquals('https://example.com/contact/success.html', $form->success_url);
         $this->assertTrue($form->sends_notifications);
         $this->assertEquals('url', $form->honeypot_field);
     }
@@ -87,12 +90,14 @@ class UpdateFormTest extends TestCase
     {
         $form = Form::factory()->create([
             'name' => 'Contact Us Page',
+            'success_url' => 'https://example.com/success.html',
             'sends_notifications' => false,
             'honeypot_field' => null,
         ]);
 
         $response = $this->patch("/forms/{$form->uuid}", [
             'name' => 'Contact Page',
+            'success_url' => 'https://example.com/contact/success.html',
             'sends_notifications' => true,
             'honeypot_field' => 'url',
         ]);
@@ -111,6 +116,7 @@ class UpdateFormTest extends TestCase
     {
         $form = Form::factory()->create([
             'name' => 'Contact Us Page',
+            'success_url' => 'https://example.com/success.html',
             'sends_notifications' => false,
             'honeypot_field' => null,
         ]);
@@ -121,6 +127,7 @@ class UpdateFormTest extends TestCase
             ->actingAs($nonOwner)
             ->patch("/forms/{$form->uuid}", [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/contact/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -145,6 +152,7 @@ class UpdateFormTest extends TestCase
             ->actingAs($form->user)
             ->patch("/forms/{$form->uuid}", [
                 'name' => '',
+                'success_url' => 'https://example.com/contact/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -172,6 +180,7 @@ class UpdateFormTest extends TestCase
             ->actingAs($user)
             ->patch("/forms/{$form->uuid}", [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/contact/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -199,6 +208,7 @@ class UpdateFormTest extends TestCase
             ->actingAs($userB)
             ->patch("/forms/{$form->uuid}", [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/contact/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -215,6 +225,7 @@ class UpdateFormTest extends TestCase
     {
         $form = Form::factory()->create([
             'name' => 'Contact Us Page',
+            'success_url' => 'https://example.com/success.html',
             'sends_notifications' => false,
             'honeypot_field' => null,
         ]);
@@ -223,6 +234,7 @@ class UpdateFormTest extends TestCase
             ->actingAs($form->user)
             ->patch("/forms/{$form->uuid}", [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/contact/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -233,5 +245,56 @@ class UpdateFormTest extends TestCase
 
         $this->assertTrue($form->sends_notifications);
         $this->assertEquals('url', $form->honeypot_field);
+    }
+    #[Test]
+    public function success_url_is_optional()
+    {
+        $form = Form::factory()->create([
+            'name' => 'Contact Us Page',
+            'success_url' => 'https://example.com/success.html',
+            'sends_notifications' => false,
+            'honeypot_field' => null,
+        ]);
+
+        $response = $this
+            ->actingAs($form->user)
+            ->patch("/forms/{$form->uuid}", [
+                'name' => 'Contact Page',
+                'success_url' => '',
+                'sends_notifications' => true,
+                'honeypot_field' => 'url',
+            ]);
+
+        $form->refresh();
+
+        $response->assertRedirect("/forms/{$form->uuid}/entries");
+
+        $this->assertNull($form->success_url);
+    }
+
+    #[Test]
+    public function honeypot_field_is_optional()
+    {
+        $form = Form::factory()->create([
+            'name' => 'Contact Us Page',
+            'success_url' => 'https://example.com/success.html',
+            'sends_notifications' => false,
+            'honeypot_field' => null,
+        ]);
+
+        $response = $this
+            ->actingAs($form->user)
+            ->patch("/forms/{$form->uuid}", [
+                'name' => 'Contact Page',
+                'success_url' => 'https://example.com/contact/success.html',
+                'sends_notifications' => true,
+                'honeypot_field' => '',
+            ]);
+
+        $form->refresh();
+
+        $response->assertRedirect("/forms/{$form->uuid}/entries");
+
+        $this->assertNull($form->honeypot_field);
     }
 }

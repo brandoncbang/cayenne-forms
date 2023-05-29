@@ -42,6 +42,7 @@ class CreateFormTest extends TestCase
             ->actingAs($user)
             ->post('/forms', [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -53,6 +54,7 @@ class CreateFormTest extends TestCase
         $response->assertRedirect("/forms/{$form->uuid}/entries");
 
         $this->assertEquals('Contact Page', $form->name);
+        $this->assertEquals('https://example.com/success.html', $form->success_url);
         $this->assertTrue($form->sends_notifications);
         $this->assertEquals('url', $form->honeypot_field);
         $this->assertTrue($form->user->is($user));
@@ -63,6 +65,7 @@ class CreateFormTest extends TestCase
     {
         $response = $this->post('/forms', [
             'name' => 'Contact Page',
+            'success_url' => 'https://example.com/success.html',
             'sends_notifications' => true,
             'honeypot_field' => 'url',
         ]);
@@ -79,6 +82,7 @@ class CreateFormTest extends TestCase
             ->actingAs($user)
             ->post('/forms', [
                 'name' => '',
+                'success_url' => 'https://example.com/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -101,6 +105,7 @@ class CreateFormTest extends TestCase
             ->actingAs($user)
             ->post('/forms', [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -123,6 +128,7 @@ class CreateFormTest extends TestCase
             ->actingAs($userB)
             ->post('/forms', [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => 'url',
             ]);
@@ -136,6 +142,27 @@ class CreateFormTest extends TestCase
     }
 
     #[Test]
+    public function success_url_is_optional()
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/forms', [
+                'name' => 'Contact Page',
+                'success_url' => '',
+                'sends_notifications' => true,
+                'honeypot_field' => 'url',
+            ]);
+
+        $form = Form::first();
+
+        $response->assertRedirect("/forms/{$form->uuid}/entries");
+
+        $this->assertNull($form->success_url);
+    }
+
+    #[Test]
     public function honeypot_field_is_optional()
     {
         $user = User::factory()->create();
@@ -144,6 +171,7 @@ class CreateFormTest extends TestCase
             ->actingAs($user)
             ->post('/forms', [
                 'name' => 'Contact Page',
+                'success_url' => 'https://example.com/success.html',
                 'sends_notifications' => true,
                 'honeypot_field' => '',
             ]);
