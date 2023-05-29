@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Form extends Model
+class Entry extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, SoftDeletes;
 
     /**
      * The attributes that should be cast.
@@ -18,7 +18,7 @@ class Form extends Model
      * @var array
      */
     protected $casts = [
-        'sends_notifications' => 'boolean',
+        'data' => 'array',
     ];
 
     /**
@@ -26,7 +26,7 @@ class Form extends Model
      *
      * @var array<string>
      */
-    protected $hidden = ['id', 'user_id'];
+    protected $hidden = ['id', 'form_id'];
 
     /**
      * The attributes that are mass assignable.
@@ -34,10 +34,9 @@ class Form extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'name',
-        'success_url',
-        'sends_notifications',
-        'honeypot_field',
+        'ip_address',
+        'user_agent',
+        'data',
     ];
 
     /**
@@ -48,13 +47,8 @@ class Form extends Model
         return ['uuid'];
     }
 
-    public function user(): BelongsTo
+    public function form(): BelongsTo
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function entries(): HasMany
-    {
-        return $this->hasMany(Entry::class);
+        return $this->belongsTo(Form::class);
     }
 }

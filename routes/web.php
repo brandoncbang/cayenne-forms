@@ -29,6 +29,7 @@ Route::get('/', function () {
 });
 
 Route::post('/f/{form:uuid}', [EntryController::class, 'store'])->name('forms.entries.store');
+Route::get('/success', fn () => view('entries.success'))->name('entries.success');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

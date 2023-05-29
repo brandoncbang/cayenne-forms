@@ -2,61 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Entry;
+use App\Models\Form;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class EntryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request, Form $form): JsonResponse|RedirectResponse
+    {
+        $form->entries()->create([
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'data' => $request->all(),
+        ]);
+
+        if ($request->isJson()) {
+            return response()->json([
+                'message' => 'Your form submission has been received.'
+            ], Response::HTTP_CREATED);
+        }
+
+        if (is_null($form->success_url)) {
+            return redirect()->route('entries.success');
+        }
+
+        return redirect()->away($form->success_url);
+    }
+
+    public function show(Entry $entry)
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(Request $request, Entry $entry)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
