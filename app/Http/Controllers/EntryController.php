@@ -47,9 +47,18 @@ class EntryController extends Controller
         return redirect()->away($form->success_url);
     }
 
-    public function show(Entry $entry)
+    /** @throws AuthorizationException */
+    public function show(Entry $entry): JsonResponse
     {
-        //
+        $this->authorize('view', $entry);
+
+        if (! $entry->hasBeenViewed()) {
+            $entry->markViewed();
+        }
+
+        return response()->json([
+            'entry' => $entry,
+        ]);
     }
 
     public function update(Request $request, Entry $entry)

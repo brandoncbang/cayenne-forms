@@ -19,6 +19,7 @@ class Entry extends Model
      */
     protected $casts = [
         'data' => 'array',
+        'viewed_at' => 'datetime',
     ];
 
     /**
@@ -50,5 +51,19 @@ class Entry extends Model
     public function form(): BelongsTo
     {
         return $this->belongsTo(Form::class);
+    }
+
+    public function hasBeenViewed(): bool
+    {
+        return ! is_null($this->viewed_at);
+    }
+
+    public function markViewed(): static
+    {
+        $this->viewed_at = now();
+
+        $this->save();
+
+        return $this;
     }
 }
