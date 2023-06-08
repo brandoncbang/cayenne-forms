@@ -8,11 +8,11 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Inertia\Response;
+use Inertia\Response as InertiaResponse;
 
 class FormController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request): InertiaResponse
     {
         $forms = $request->user()->forms()->orderBy('id', 'desc')->paginate(8)->onEachSide(2);
 
@@ -21,7 +21,7 @@ class FormController extends Controller
         ]);
     }
 
-    public function create(): Response
+    public function create(): InertiaResponse
     {
         return inertia('Forms/Create');
     }
@@ -44,7 +44,7 @@ class FormController extends Controller
     }
 
     /** @throws AuthorizationException */
-    public function edit(Form $form): Response
+    public function edit(Form $form): InertiaResponse
     {
         $this->authorize('update', $form);
 
