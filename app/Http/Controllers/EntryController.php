@@ -4,16 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Entry;
 use App\Models\Form;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Inertia\Response as InertiaResponse;
 
 class EntryController extends Controller
 {
-    public function index()
+    /** @throws AuthorizationException */
+    public function index(Form $form): InertiaResponse
     {
-        //
+        $this->authorize('viewAny', [Entry::class, $form]);
+
+        $entries = $form->entries()->latest()->paginate(8)->onEachSide(2);
+
+        return inertia('Entries/Index', [
+            'form' => $form,
+            'entries' => $entries,
+        ]);
     }
 
     public function store(Request $request, Form $form): JsonResponse|RedirectResponse
