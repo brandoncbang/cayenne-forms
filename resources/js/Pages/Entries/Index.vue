@@ -3,7 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 import { displayDate, displayDateTime, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
+import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
 import { router, Link } from '@inertiajs/vue3';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 
 const props = defineProps({
     form: Object,
@@ -90,11 +92,48 @@ const deselectEntry = () => {
                             <h2 class="mt-6 text-base font-semibold leading-7 text-gray-900 md:mt-0">
                                 {{ 'email' in selectedEntry.data ? selectedEntry.data.email : 'Untitled' }}
                             </h2>
-                            <time
-                                :datetime="selectedEntry.created_at" class="mt-1 max-w-2xl text-sm leading-6 text-gray-500"
-                            >
-                                {{ displayDateTime(selectedEntry.created_at) }}
-                            </time>
+                            <div class="flex items-center mt-1 max-w-2xl">
+                                <time
+                                    :datetime="selectedEntry.created_at" class="text-sm leading-6 text-gray-500"
+                                >
+                                    {{ displayDateTime(selectedEntry.created_at) }}
+                                </time>
+                                <Popover class="sm:relative ml-2">
+                                    <PopoverButton class="block -mt-0.5" title="Show advanced info">
+                                        <span class="sr-only">Show advanced info</span>
+                                        <InformationCircleIcon class="h-5 w-5 text-gray-700" aria-hidden="true" />
+                                    </PopoverButton>
+                                    <transition
+                                        enter-active-class="transition ease-out duration-100"
+                                        enter-from-class="transform opacity-0 scale-95"
+                                        enter-to-class="transform opacity-100 scale-100"
+                                        leave-active-class="transition ease-in duration-75"
+                                        leave-from-class="transform opacity-100 scale-100"
+                                        leave-to-class="transform opacity-0 scale-95"
+                                    >
+                                        <PopoverPanel class="absolute left-0 ml-4 z-10 mt-2 px-4 py-3 w-56 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 sm:origin-top-left sm:ml-0">
+                                            <dl class="space-y-2">
+                                                <div>
+                                                    <dt class="text-xs font-medium leading-5 text-gray-700">
+                                                        IP Address
+                                                    </dt>
+                                                    <dd class="mt-1 text-xs leading-5 truncate text-gray-500">
+                                                        {{ selectedEntry.ip_address }}
+                                                    </dd>
+                                                </div>
+                                                <div>
+                                                    <dt class="text-xs font-medium leading-5 text-gray-700">
+                                                        User Agent
+                                                    </dt>
+                                                    <dd class="mt-1 line-clamp-6 text-xs leading-5 text-gray-500">
+                                                        {{ selectedEntry.user_agent }}
+                                                    </dd>
+                                                </div>
+                                            </dl>
+                                        </PopoverPanel>
+                                    </transition>
+                                </Popover>
+                            </div>
                         </div>
                         <div class="border-t border-gray-100">
                             <dl class="divide-y divide-gray-100">
