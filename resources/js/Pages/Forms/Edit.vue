@@ -6,6 +6,8 @@ import PrimaryButton from '@/Components/Dashboard/PrimaryButton.vue';
 import CardsForm from '@/Components/Dashboard/CardsForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
+import CopyButton from '@/Components/Dashboard/CopyButton.vue';
+import { getFormEmbedCode } from '@/helpers.js';
 
 const props = defineProps({
     form: Object,
@@ -26,7 +28,33 @@ const submit = () => {
 <template>
     <AuthenticatedLayout :title="`Edit &ldquo;${props.form.name}&rdquo;`">
         <CardsForm @submit.prevent="submit">
-            <CardsFormSection title="Form Overview">
+            <CardsFormSection title="Form Endpoint">
+                <template #description>
+                    <p>
+                        To start receiving form entries, add the form's embed code to your website's HTML.
+                    </p>
+                </template>
+
+                <div class="col-span-full">
+                    <div class="flex justify-between items-end">
+                        <p class="text-sm font-medium leading-6 text-gray-900">Embed Code</p>
+                        <CopyButton
+                            type="button"
+                            class="rounded bg-white px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                            :value="getFormEmbedCode(props.form)"
+                        >
+                            Copy<span class="sr-only">, form embed code</span>
+                        </CopyButton>
+                    </div>
+                    <div class="mt-2">
+                        <pre
+                            class="overflow-x-auto rounded-md border-0 px-4 py-3.5 text-sm leading-6 font-mono text-gray-800 bg-gray-100"
+                        ><code>{{ getFormEmbedCode(props.form) }}</code></pre>
+                    </div>
+                </div>
+            </CardsFormSection>
+
+            <CardsFormSection title="Form Overview" class="pt-10">
                 <template #description>
                     <p>
                         Creating a form will give you an endpoint that lets you receive and view form entries from your

@@ -9,3 +9,14 @@ export function displayDate(date) {
 export function displayDateTime(date) {
     return (new Date(date)).toLocaleString();
 }
+
+export function getFormEmbedCode(form) {
+    return `
+<form
+    action="${route('forms.entries.store', { form })}"
+    method="POST"
+>
+    <!-- ... -->
+</form>
+    `.trim();
+}

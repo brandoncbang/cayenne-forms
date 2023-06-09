@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
-import { displayDate, displayDateTime, displayNumber } from '@/helpers.js';
+import { displayDate, displayDateTime, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
 import { Link } from '@inertiajs/vue3';
 
@@ -12,8 +12,6 @@ const props = defineProps({
 
 const loadingShownEntry = ref(false);
 const shownEntry = ref(null);
-
-const formTag = `<form action="${route('forms.entries.store', { form: props.form })}" method="POST">`;
 
 const showEntry = (entry) => {
     if (entry.uuid === shownEntry.value?.uuid) {
@@ -160,15 +158,18 @@ const hideEntry = () => {
                         <h2 class="mt-2 text-base font-semibold leading-6 text-gray-900">
                             Nothing here yet
                         </h2>
-                        <p class="mt-1 text-sm text-gray-500 prose">
+                        <p class="mt-1 text-sm text-gray-500">
                             You haven’t received any entries for this form yet. To start receiving entries, add this
-                            form's endpoint URL to your website's <code>&lt;form&gt;</code> tag.
-                            <Link :href="route('forms.edit', { form })">Learn more.</Link>
+                            form's
+                            <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">
+                                embed code
+                            </Link>
+                            to your website's HTML.
                         </p>
                     </div>
                     <CopyButton
                         class="block mt-6 mx-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        :value="formTag"
+                        :value="getFormEmbedCode(form)"
                     >
                         Copy embed code
                     </CopyButton>
