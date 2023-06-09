@@ -46,7 +46,7 @@ const deselectEntry = () => {
     <AuthenticatedLayout :title="`Entries for &ldquo;${form.name}&rdquo;`">
         <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
-                <!-- Entry selection -->
+                <!-- Entry selection list -->
                 <ul
                     class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-1/3"
                     :class="{ 'hidden md:block': selectedEntry }"
