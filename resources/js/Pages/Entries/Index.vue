@@ -201,9 +201,7 @@ const deselectEntry = () => {
                         <p class="mt-1 text-sm text-gray-500">
                             You haven’t received any entries for this form yet. To start receiving entries, add this
                             form's
-                            <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">
-                                embed code
-                            </Link>
+                            <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
                             to your website's HTML.
                         </p>
                     </div>
