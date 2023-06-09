@@ -96,7 +96,7 @@ const hideEntry = () => {
                                 {{ displayDateTime(shownEntry.created_at) }}
                             </time>
                         </div>
-                        <div class="border-t border-gray-200">
+                        <div class="border-t border-gray-100">
                             <dl class="divide-y divide-gray-100">
                                 <div
                                     v-for="(value, key) in shownEntry.data"
