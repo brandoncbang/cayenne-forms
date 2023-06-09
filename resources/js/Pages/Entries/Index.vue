@@ -126,8 +126,7 @@ const hideEntry = () => {
                             </svg>
                             <h3 class="mt-2 text-lg font-semibold text-gray-900">Inbox</h3>
                             <p class="mt-1 text-sm text-gray-500">
-<!--                                You have {{ displayNumber(entries.total, 999_999) }} entries here.-->
-                                You have {{ displayNumber(9999999, 999_999) }} entries here.
+                                You have {{ displayNumber(entries.total, 999_999) }} entries here.
                             </p>
                         </div>
                     </div>
