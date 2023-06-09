@@ -10,34 +10,34 @@ const props = defineProps({
     entries: Object,
 });
 
-const loadingShownEntry = ref(false);
-const shownEntry = ref(null);
+const loadingSelectedEntry = ref(false);
+const selectedEntry = ref(null);
 
-const showEntry = (entry) => {
-    if (entry.uuid === shownEntry.value?.uuid) {
+const selectEntry = (entry) => {
+    if (entry.uuid === selectedEntry.value?.uuid) {
         return;
     }
 
-    loadingShownEntry.value = true;
+    loadingSelectedEntry.value = true;
 
     axios
         .get(route('entries.show', { entry }))
         .then(response => {
-            shownEntry.value = response.data.entry;
+            selectedEntry.value = response.data.entry;
             // TODO: Focus inside entry container
         })
         .catch(error => {
             router.reload();
-            shownEntry.value = null;
+            selectedEntry.value = null;
             // TODO: Focus outside entry container
         })
         .finally(() => {
-            loadingShownEntry.value = false;
+            loadingSelectedEntry.value = false;
         });
 };
 
-const hideEntry = () => {
-    shownEntry.value = null;
+const deselectEntry = () => {
+    selectedEntry.value = null;
     // TODO: Focus outside entry container
 };
 </script>
@@ -49,14 +49,14 @@ const hideEntry = () => {
                 <!-- Entry selection -->
                 <ul
                     class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-1/3"
-                    :class="{ 'hidden md:block': shownEntry }"
+                    :class="{ 'hidden md:block': selectedEntry }"
                 >
                     <li v-for="entry in entries.data" key="entry.uuid">
                         <button
                             class="block w-full px-4 py-5 text-left sm:px-6"
-                            :class="{ 'bg-indigo-100': entry.uuid === shownEntry?.uuid }"
+                            :class="{ 'bg-indigo-100': entry.uuid === selectedEntry?.uuid }"
                             type="button"
-                            @click="showEntry(entry)"
+                            @click="selectEntry(entry)"
                         >
                             <span class="flex items-baseline justify-between gap-x-4">
                                 <span class="text-sm font-semibold leading-6 text-gray-900">
@@ -76,30 +76,30 @@ const hideEntry = () => {
                 </ul>
                 <div class="flex-1">
                     <!-- Show selected entry -->
-                    <article v-if="shownEntry" class="max-w-full md:h-full md:overflow-y-auto">
+                    <article v-if="selectedEntry" class="max-w-full md:h-full md:overflow-y-auto">
                         <div class="px-4 py-8 md:px-6">
                             <div class="flex items-center space-x-2">
                                 <button
                                     type="button"
                                     class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 md:hidden hover:bg-gray-50"
-                                    @click="hideEntry"
+                                    @click="deselectEntry"
                                 >
                                     &larr; Back
                                 </button>
                             </div>
                             <h2 class="mt-6 text-base font-semibold leading-7 text-gray-900 md:mt-0">
-                                {{ 'email' in shownEntry.data ? shownEntry.data.email : 'Untitled' }}
+                                {{ 'email' in selectedEntry.data ? selectedEntry.data.email : 'Untitled' }}
                             </h2>
                             <time
-                                :datetime="shownEntry.created_at" class="mt-1 max-w-2xl text-sm leading-6 text-gray-500"
+                                :datetime="selectedEntry.created_at" class="mt-1 max-w-2xl text-sm leading-6 text-gray-500"
                             >
-                                {{ displayDateTime(shownEntry.created_at) }}
+                                {{ displayDateTime(selectedEntry.created_at) }}
                             </time>
                         </div>
                         <div class="border-t border-gray-100">
                             <dl class="divide-y divide-gray-100">
                                 <div
-                                    v-for="(value, key) in shownEntry.data"
+                                    v-for="(value, key) in selectedEntry.data"
                                     class="px-4 py-6 even:bg-gray-50 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6"
                                 >
                                     <dt class="text-sm font-medium leading-6 text-gray-900">
