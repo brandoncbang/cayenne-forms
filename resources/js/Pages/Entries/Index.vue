@@ -11,9 +11,6 @@ const props = defineProps({
     entries: Object,
 });
 
-const entriesContainer = ref(null);
-const shownEntryContainer = ref(null);
-
 const loadingShownEntry = ref(false);
 const shownEntry = ref(null);
 
@@ -30,16 +27,21 @@ const showEntry = (entry) => {
         .get(route('entries.show', { entry }))
         .then(response => {
             shownEntry.value = response.data.entry;
+            // TODO: Focus inside entry container
+        })
+        .catch(error => {
+            router.reload();
+            shownEntry.value = null;
+            // TODO: Focus outside entry container
         })
         .finally(() => {
             loadingShownEntry.value = false;
-            shownEntryContainer.value.focus();
         });
 };
 
 const hideEntry = () => {
     shownEntry.value = null;
-    entriesContainer.value.focus();
+    // TODO: Focus outside entry container
 };
 </script>
 
@@ -75,12 +77,7 @@ const hideEntry = () => {
                     </li>
                 </ul>
                 <div class="flex-1">
-                    <article
-                        v-if="shownEntry"
-                        class="max-w-full md:h-full md:overflow-y-auto"
-                        ref="shownEntryContainer"
-                        tabindex="0"
-                    >
+                    <article v-if="shownEntry" class="max-w-full md:h-full md:overflow-y-auto">
                         <div class="px-4 py-8 md:px-6">
                             <div class="flex items-center space-x-2">
                                 <button
