@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 import { displayDate, displayDateTime, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
-import { Link } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     form: Object,
