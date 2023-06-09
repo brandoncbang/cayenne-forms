@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 import { displayDate, displayDateTime, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
+import { PencilIcon } from '@heroicons/vue/20/solid/index.js';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
 import { router, Link } from '@inertiajs/vue3';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
@@ -46,6 +47,16 @@ const deselectEntry = () => {
 
 <template>
     <AuthenticatedLayout :title="`Entries for &ldquo;${form.name}&rdquo;`">
+        <template #actions>
+            <Link
+                :href="route('forms.edit', { form: props.form })"
+                class="ml-auto flex items-center gap-x-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+                <PencilIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                Edit
+            </Link>
+        </template>
+
         <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <!-- Entry selection list -->

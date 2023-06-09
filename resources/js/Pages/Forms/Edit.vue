@@ -8,6 +8,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
 import { getFormEmbedCode } from '@/helpers.js';
+import { PlusSmallIcon } from '@heroicons/vue/20/solid/index.js';
 
 const props = defineProps({
     form: Object,
@@ -27,6 +28,15 @@ const submit = () => {
 
 <template>
     <AuthenticatedLayout :title="`Edit &ldquo;${props.form.name}&rdquo;`">
+        <template #actions>
+            <Link
+                :href="route('forms.entries.index', { form: props.form })"
+                class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            >
+                View entries
+            </Link>
+        </template>
+
         <CardsForm @submit.prevent="submit">
             <CardsFormSection title="Form Endpoint">
                 <template #description>
