@@ -18,7 +18,7 @@ class EntryController extends Controller
     {
         $this->authorize('viewAny', [Entry::class, $form]);
 
-        $entries = $form->entries()->latest()->paginate(8)->onEachSide(2);
+        $entries = $form->entries()->orderByDesc('id')->paginate(12)->onEachSide(2);
 
         return inertia('Entries/Index', [
             'form' => $form,
