@@ -3,6 +3,8 @@ import { InboxArrowDownIcon } from '@heroicons/vue/24/outline/index.js';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 import { displayDate, displayDateTime, displayNumber } from '@/helpers.js';
+import CopyButton from '@/Components/Dashboard/CopyButton.vue';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     form: Object,
@@ -14,6 +16,8 @@ const shownEntryContainer = ref(null);
 
 const loadingShownEntry = ref(false);
 const shownEntry = ref(null);
+
+const formTag = `<form action="${route('forms.entries.store', { form: props.form })}" method="POST">`;
 
 const showEntry = (entry) => {
     if (entry.uuid === shownEntry.value?.uuid) {
@@ -42,11 +46,7 @@ const hideEntry = () => {
 <template>
     <AuthenticatedLayout :title="`Entries for &ldquo;${form.name}&rdquo;`">
         <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
-            <div
-                class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200"
-                ref="entriesContainer"
-                tabindex="0"
-            >
+            <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <ul
                     class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-1/3"
                     :class="{ 'hidden md:block': shownEntry }"
@@ -130,6 +130,40 @@ const hideEntry = () => {
                             </p>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div v-else class="flex items-center h-full px-4 py-5 sm:px-6">
+                <div class="mx-auto max-w-lg">
+                    <div class="text-center">
+                        <svg
+                            class="mx-auto h-12 w-12 -mt-2 text-gray-400"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path
+                                stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                            />
+                        </svg>
+                        <h2 class="mt-2 text-base font-semibold leading-6 text-gray-900">
+                            Nothing here yet
+                        </h2>
+                        <p class="mt-1 text-sm text-gray-500 prose">
+                            You haven’t received any entries for this form yet. To start receiving entries, add this
+                            form's endpoint URL to your website's <code>&lt;form&gt;</code> tag.
+                            <Link :href="route('forms.edit', { form })">Learn more.</Link>
+                        </p>
+                    </div>
+                    <CopyButton
+                        class="block mt-6 mx-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        :value="formTag"
+                    >
+                        Copy embed code
+                    </CopyButton>
                 </div>
             </div>
         </div>
