@@ -55,7 +55,7 @@ const hideEntry = () => {
                     <li v-for="entry in entries.data" key="entry.uuid">
                         <button
                             class="block w-full px-4 py-5 text-left sm:px-6"
-                            :class="{ 'bg-gray-50': entry.uuid === shownEntry?.uuid }"
+                            :class="{ 'bg-indigo-100': entry.uuid === shownEntry?.uuid }"
                             type="button"
                             @click="showEntry(entry)"
                         >
