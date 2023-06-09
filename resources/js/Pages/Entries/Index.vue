@@ -46,6 +46,7 @@ const hideEntry = () => {
     <AuthenticatedLayout :title="`Entries for &ldquo;${form.name}&rdquo;`">
         <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
+                <!-- Entry selection -->
                 <ul
                     class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-1/3"
                     :class="{ 'hidden md:block': shownEntry }"
@@ -74,6 +75,7 @@ const hideEntry = () => {
                     </li>
                 </ul>
                 <div class="flex-1">
+                    <!-- Show selected entry -->
                     <article v-if="shownEntry" class="max-w-full md:h-full md:overflow-y-auto">
                         <div class="px-4 py-8 md:px-6">
                             <div class="flex items-center space-x-2">
@@ -110,10 +112,8 @@ const hideEntry = () => {
                             </dl>
                         </div>
                     </article>
-                    <div
-                        v-else
-                        class="hidden md:flex md:flex-col md:justify-center md:h-full md:px-6 md:py-5"
-                    >
+                    <!-- No entry selected -->
+                    <div v-else class="hidden md:flex md:flex-col md:justify-center md:h-full md:px-6 md:py-5">
                         <div class="text-center">
                             <svg
                                 class="mx-auto h-12 w-12 text-gray-400"
@@ -138,6 +138,7 @@ const hideEntry = () => {
                     </div>
                 </div>
             </div>
+            <!-- No entries -->
             <div v-else class="flex items-center h-full px-4 py-5 sm:px-6">
                 <div class="mx-auto max-w-lg">
                     <div class="text-center">
