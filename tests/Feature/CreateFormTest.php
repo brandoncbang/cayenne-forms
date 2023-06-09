@@ -51,7 +51,7 @@ class CreateFormTest extends TestCase
 
         $form = Form::first();
 
-        $response->assertRedirect("/forms/{$form->uuid}/entries");
+        $response->assertRedirect("/forms/{$form->uuid}/edit");
 
         $this->assertEquals('Contact Page', $form->name);
         $this->assertEquals('https://example.com/success.html', $form->success_url);
@@ -135,7 +135,7 @@ class CreateFormTest extends TestCase
 
         $formB = Form::latest('id')->first();
 
-        $response->assertRedirect("/forms/{$formB->uuid}/entries");
+        $response->assertRedirect("/forms/{$formB->uuid}/edit");
 
         $this->assertEquals($formA->name, $formB->name);
         $this->assertFalse($formB->is($formA));
@@ -157,7 +157,7 @@ class CreateFormTest extends TestCase
 
         $form = Form::first();
 
-        $response->assertRedirect("/forms/{$form->uuid}/entries");
+        $response->assertRedirect("/forms/{$form->uuid}/edit");
 
         $this->assertNull($form->success_url);
     }
@@ -178,7 +178,7 @@ class CreateFormTest extends TestCase
 
         $form = Form::first();
 
-        $response->assertRedirect("/forms/{$form->uuid}/entries");
+        $response->assertRedirect("/forms/{$form->uuid}/edit");
 
         $this->assertNull($form->honeypot_field);
     }

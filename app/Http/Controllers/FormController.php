@@ -40,7 +40,7 @@ class FormController extends Controller
             ]),
         );
 
-        return redirect()->route('forms.entries.index', ['form' => $form]);
+        return redirect()->route('forms.edit', ['form' => $form]);
     }
 
     /** @throws AuthorizationException */
