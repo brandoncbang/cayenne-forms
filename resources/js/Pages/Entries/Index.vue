@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 import { displayDate, displayDateTime, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
-import { PencilIcon } from '@heroicons/vue/20/solid/index.js';
+import { ArchiveBoxIcon, ChevronDownIcon, InboxArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
 import { router, Link } from '@inertiajs/vue3';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
@@ -15,6 +15,27 @@ const props = defineProps({
 
 const loadingSelectedEntry = ref(false);
 const selectedEntry = ref(null);
+
+const tabs = [
+    {
+        name: 'Inbox',
+        href: route('forms.entries.index', { form: props.form }),
+        icon: InboxArrowDownIcon,
+        current: route().current('forms.entries.index', { form: props.form, filter: null }),
+    },
+    {
+        name: 'Archive',
+        href: route('forms.entries.index', { form: props.form, filter: 'archived' }),
+        icon: ArchiveBoxIcon,
+        current: route().current('forms.entries.index', { form: props.form, filter: 'archived' }),
+    },
+    {
+        name: 'Trash',
+        href: route('forms.entries.index', { form: props.form, filter: 'trashed' }),
+        icon: TrashIcon,
+        current: route().current('forms.entries.index', { form: props.form, filter: 'trashed' }),
+    },
+];
 
 const selectEntry = (entry) => {
     if (entry.uuid === selectedEntry.value?.uuid) {
@@ -57,7 +78,51 @@ const deselectEntry = () => {
             </Link>
         </template>
 
-        <div class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
+        <div class="flex justify-between items-end">
+            <div class="w-96">
+                <div class="sm:hidden">
+                    <label for="tabs" class="sr-only">Select a tab</label>
+                    <select
+                        id="tabs"
+                        name="tabs"
+                        class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                        @change="router.visit($event.target.value)"
+                    >
+                        <option v-for="tab in tabs" :key="tab.name" :selected="tab.current" :value="tab.href">
+                            {{ tab.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="hidden sm:block">
+                    <nav class="isolate flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
+                        <Link
+                            v-for="(tab, tabIdx) in tabs"
+                            :key="tab.name"
+                            :href="tab.href"
+                            :class="[tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700', tabIdx === 0 ? 'rounded-l-lg' : '', tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '', 'group relative inline-flex justify-center items-center min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10']"
+                            :aria-current="tab.current ? 'page' : undefined"
+                        >
+                            <component
+                                :is="tab.icon"
+                                :class="[tab.current ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500', 'flex-shrink-0 -ml-0.5 mr-2 h-5 w-5']"
+                                aria-hidden="true"
+                            />
+                            <span>{{ tab.name }}</span>
+                            <span
+                                aria-hidden="true"
+                                :class="[tab.current ? 'bg-indigo-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']"
+                            />
+                        </Link>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="">
+                showing x - y of n
+            </div>
+        </div>
+        <div class="overflow-hidden mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
+            <!-- Entries -->
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <!-- Entry selection list -->
                 <ul
