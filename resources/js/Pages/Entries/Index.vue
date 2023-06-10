@@ -3,10 +3,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 import { displayDate, displayDateTime, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
-import { ArchiveBoxIcon, ChevronDownIcon, InboxArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
+import { ArchiveBoxIcon, InboxArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
 import { router, Link } from '@inertiajs/vue3';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import SimplePagination from '@/Components/Dashboard/SimplePagination.vue';
 
 const props = defineProps({
     form: Object,
@@ -78,9 +79,9 @@ const deselectEntry = () => {
             </Link>
         </template>
 
-        <div class="flex justify-between items-end">
-            <div class="w-96">
-                <div class="sm:hidden">
+        <div class="flex justify-between items-end px-4 sm:px-0">
+            <div class="w-48 md:w-96">
+                <div class="md:hidden">
                     <label for="tabs" class="sr-only">Select a tab</label>
                     <select
                         id="tabs"
@@ -93,7 +94,7 @@ const deselectEntry = () => {
                         </option>
                     </select>
                 </div>
-                <div class="hidden sm:block">
+                <div class="hidden md:block">
                     <nav class="isolate flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
                         <Link
                             v-for="(tab, tabIdx) in tabs"
@@ -117,9 +118,7 @@ const deselectEntry = () => {
                 </div>
             </div>
 
-            <div class="">
-                showing x - y of n
-            </div>
+            <SimplePagination :paginator="entries" />
         </div>
         <div class="overflow-hidden mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
             <!-- Entries -->
