@@ -14,11 +14,11 @@ use Inertia\Response as InertiaResponse;
 class EntryController extends Controller
 {
     /** @throws AuthorizationException */
-    public function index(Form $form): InertiaResponse
+    public function index(Request $request, Form $form): InertiaResponse
     {
         $this->authorize('viewAny', [Entry::class, $form]);
 
-        $entries = $form->entries()->orderByDesc('id')->paginate(12)->onEachSide(2);
+        $entries = $form->entries()->orderByDesc('id')->paginate(20)->onEachSide(2);
 
         return inertia('Entries/Index', [
             'form' => $form,
