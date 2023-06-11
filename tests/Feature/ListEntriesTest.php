@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\Entry;
 use App\Models\Form;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -48,5 +50,53 @@ class ListEntriesTest extends TestCase
             ->get("/forms/{$form->uuid}/entries");
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    #[Test]
+    public function user_cannot_see_archived_entries_without_a_filter()
+    {
+        $form = Form::factory()->create();
+
+        [$archived, $nonArchived] = Entry::factory()
+            ->count(2)
+            ->sequence(
+                ['archived_at' => now()],
+                ['archived_at' => null],
+            )
+            ->for($form)
+            ->create();
+
+        $response = $this
+            ->actingAs($form->user)
+            ->get("/forms/{$form->uuid}/entries");
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->has('entries.data', 1)
+            ->where('entries.data.0.uuid', $nonArchived->uuid)
+        );
+    }
+
+    #[Test]
+    public function user_can_see_archived_entries_with_a_filter()
+    {
+        $form = Form::factory()->create();
+
+        [$archived, $nonArchived] = Entry::factory()
+            ->count(2)
+            ->sequence(
+                ['archived_at' => now()],
+                ['archived_at' => null],
+            )
+            ->for($form)
+            ->create();
+
+        $response = $this
+            ->actingAs($form->user)
+            ->get("/forms/{$form->uuid}/entries?filter=archived");
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->has('entries.data', 1)
+            ->where('entries.data.0.uuid', $archived->uuid)
+        );
     }
 }

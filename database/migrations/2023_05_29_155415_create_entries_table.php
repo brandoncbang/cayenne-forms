@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('user_agent')->nullable();
             $table->json('data');
             $table->timestamps();
-            $table->timestamp('viewed_at')->nullable();
+            $table->timestamp('archived_at')->nullable();
             $table->softDeletes();
         });
     }

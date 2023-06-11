@@ -18,7 +18,13 @@ class EntryController extends Controller
     {
         $this->authorize('viewAny', [Entry::class, $form]);
 
-        $entries = $form->entries()->orderByDesc('id')->paginate(20)->onEachSide(2);
+        $entries = $form
+            ->entries()
+            ->when($request->query('filter') === 'archived', fn ($query) => $query->onlyArchived())
+            ->when($request->query('filter') === 'trashed', fn ($query) => $query->onlyTrashed())
+            ->orderByDesc('id')
+            ->paginate(20)
+            ->onEachSide(2);
 
         return inertia('Entries/Index', [
             'form' => $form,
@@ -51,10 +57,6 @@ class EntryController extends Controller
     public function show(Entry $entry): JsonResponse
     {
         $this->authorize('view', $entry);
-
-        if (! $entry->hasBeenViewed()) {
-            $entry->markViewed();
-        }
 
         return response()->json([
             'entry' => $entry,

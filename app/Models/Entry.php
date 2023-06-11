@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Archives;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Entry extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use Archives, HasFactory, HasUuids, SoftDeletes;
 
     /**
      * The attributes that should be cast.
@@ -19,7 +20,6 @@ class Entry extends Model
      */
     protected $casts = [
         'data' => 'array',
-        'viewed_at' => 'datetime',
     ];
 
     /**
@@ -51,19 +51,5 @@ class Entry extends Model
     public function form(): BelongsTo
     {
         return $this->belongsTo(Form::class);
-    }
-
-    public function hasBeenViewed(): bool
-    {
-        return ! is_null($this->viewed_at);
-    }
-
-    public function markViewed(): static
-    {
-        $this->viewed_at = now();
-
-        $this->save();
-
-        return $this;
     }
 }

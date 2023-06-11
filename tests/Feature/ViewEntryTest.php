@@ -18,8 +18,6 @@ class ViewEntryTest extends TestCase
     #[Test]
     public function user_can_view_an_entry()
     {
-        $this->freezeTime();
-
         $entry = Entry::factory()->create();
 
         $response = $this
@@ -36,13 +34,10 @@ class ViewEntryTest extends TestCase
                     ->where('ip_address', $entry->ip_address)
                     ->where('user_agent', $entry->user_agent)
                     ->where('data', $entry->data)
-                    ->whereNot('viewed_at', null)
+                    ->whereNot('archived_at', null)
                     ->etc()
                 )
             );
-
-        $entry->refresh();
-        $this->assertNotNull($entry->viewed_at);
     }
 
     #[Test]
@@ -53,9 +48,6 @@ class ViewEntryTest extends TestCase
         $response = $this->getJson("/entries/{$entry->uuid}");
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-
-        $entry->refresh();
-        $this->assertNull($entry->viewed_at);
     }
 
     #[Test]
@@ -70,8 +62,5 @@ class ViewEntryTest extends TestCase
             ->getJson("/entries/{$entry->uuid}");
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
-
-        $entry->refresh();
-        $this->assertNull($entry->viewed_at);
     }
 }
