@@ -55,7 +55,7 @@ class ReceiveEntryTest extends TestCase
     }
 
     #[Test]
-    public function no_redirect_when_request_is_json()
+    public function form_cannot_receive_json()
     {
         $form = Form::factory()->create();
 
@@ -71,11 +71,9 @@ class ReceiveEntryTest extends TestCase
                 'message' => 'Lorem ipsum dolor sit amet.',
             ]);
 
-        $response
-            ->assertStatus(Response::HTTP_CREATED)
-            ->assertJson([
-                'message' => 'Your form submission has been received.',
-            ]);
+        $response->assertStatus(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
+
+        $this->assertDatabaseEmpty(Entry::class);
     }
 
     #[Test]

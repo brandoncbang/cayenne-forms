@@ -32,19 +32,15 @@ class EntryController extends Controller
         ]);
     }
 
-    public function store(Request $request, Form $form): JsonResponse|RedirectResponse
+    public function store(Request $request, Form $form): RedirectResponse
     {
+        abort_if($request->isJson(), Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
+
         $form->entries()->create([
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
             'data' => $request->all(),
         ]);
-
-        if ($request->isJson()) {
-            return response()->json([
-                'message' => 'Your form submission has been received.'
-            ], Response::HTTP_CREATED);
-        }
 
         if (is_null($form->success_url)) {
             return redirect()->route('entries.success');
