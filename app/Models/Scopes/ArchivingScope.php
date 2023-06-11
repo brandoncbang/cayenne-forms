@@ -36,7 +36,7 @@ class ArchivingScope implements Scope
     /**
      * Add the unarchive extension to the builder.
      */
-    public function addArchive(Builder $builder): void
+    protected function addArchive(Builder $builder): void
     {
         $builder->macro('archive', function (Builder $builder) {
             $builder->withArchived();
@@ -50,7 +50,7 @@ class ArchivingScope implements Scope
     /**
      * Add the unarchive extension to the builder.
      */
-    public function addUnarchive(Builder $builder): void
+    protected function addUnarchive(Builder $builder): void
     {
         $builder->macro('unarchive', function (Builder $builder) {
             $builder->withArchived();
