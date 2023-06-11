@@ -1,6 +1,7 @@
 <script setup>
 import { displayDateTime } from '@/helpers.js';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import { ArchiveBoxIcon, ArrowLeftIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
 import { router } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -68,7 +69,8 @@ const destroy = () => {
                     class="inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 md:hidden hover:bg-gray-50"
                     @click="$emit('close')"
                 >
-                    &larr; Back
+                    <ArrowLeftIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                    Back
                 </button>
 
                 <button
@@ -76,6 +78,7 @@ const destroy = () => {
                     type="button"
                     @click="entryIsArchived ? unarchive() : archive()"
                 >
+                    <ArchiveBoxIcon class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                     {{ entryIsArchived ? 'Unarchive' : 'Archive' }}
                 </button>
 
@@ -84,6 +87,7 @@ const destroy = () => {
                     type="button"
                     @click="entryIsTrashed ? untrash() : trash()"
                 >
+                    <TrashIcon class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                     {{ entryIsTrashed ? 'Untrash' : 'Trash' }}
                 </button>
             </div>
