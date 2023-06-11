@@ -127,7 +127,7 @@ const deselectEntry = () => {
 
             <SimplePagination v-if="entries.total > 0" :paginator="entries" />
         </div>
-        <div class="overflow-hidden mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
+        <div class="overflow-hidden mt-2 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
             <!-- Entries -->
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <!-- Entry selection list -->
