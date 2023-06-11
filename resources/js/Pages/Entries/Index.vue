@@ -1,12 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { computed, ref } from 'vue';
-import { displayDate, displayDateTime, displayNumber, getFormEmbedCode } from '@/helpers.js';
+import { displayDate, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
 import { ArchiveBoxIcon, InboxArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
-import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
 import { router, Link } from '@inertiajs/vue3';
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import SimplePagination from '@/Components/Dashboard/SimplePagination.vue';
 import ThinArrowDownIcon from '@/Components/Dashboard/Icons/ThinArrowDownIcon.vue';
 import ThinTrashIcon from '@/Components/Dashboard/Icons/ThinTrashIcon.vue';
@@ -27,18 +25,21 @@ const tabs = computed(() => {
             name: 'Inbox',
             href: route('forms.entries.index', { form: props.form }),
             icon: InboxArrowDownIcon,
+            graphic: ThinArrowDownIcon,
             current: route().current('forms.entries.index', { form: props.form, filter: null }),
         },
         {
             name: 'Archive',
             href: route('forms.entries.index', { form: props.form, filter: 'archived' }),
             icon: ArchiveBoxIcon,
+            graphic: ThinArchiveBoxIcon,
             current: route().current('forms.entries.index', { form: props.form, filter: 'archived' }),
         },
         {
             name: 'Trash',
             href: route('forms.entries.index', { form: props.form, filter: 'trashed' }),
             icon: TrashIcon,
+            graphic: ThinTrashIcon,
             current: route().current('forms.entries.index', { form: props.form, filter: 'trashed' }),
         },
     ];
@@ -171,9 +172,7 @@ const deselectEntry = () => {
                     <div v-else class="hidden md:flex md:flex-col md:justify-center md:h-full md:px-6 md:py-5">
                         <div class="text-center">
                             <div class="inline-block mx-auto text-gray-400">
-                                <ThinArrowDownIcon v-if="currentTab.name === 'Inbox'" />
-                                <ThinArchiveBoxIcon v-if="currentTab.name === 'Archive'" />
-                                <ThinTrashIcon v-if="currentTab.name === 'Trash'" />
+                                <component :is="currentTab?.graphic" />
                             </div>
                             <h3 class="mt-2 text-base font-semibold text-gray-900">
                                 {{ tabs.find(tab => tab.current)?.name }}
