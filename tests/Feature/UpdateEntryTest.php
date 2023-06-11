@@ -27,6 +27,7 @@ class UpdateEntryTest extends TestCase
 
         $response = $this
             ->actingAs($form->user)
+            ->from("/forms/{$form->uuid}/entries")
             ->patch("/entries/{$entry->uuid}", [
                 'archived_at' => now(),
             ]);
