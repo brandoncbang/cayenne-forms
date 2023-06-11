@@ -78,8 +78,13 @@ class EntryController extends Controller
         return redirect()->back();
     }
 
-    public function destroy(string $id)
+    /** @throws AuthorizationException */
+    public function destroy(Entry $entry): RedirectResponse
     {
-        //
+        $this->authorize('delete', $entry);
+
+        $entry->forceDelete();
+
+        return redirect()->back();
     }
 }

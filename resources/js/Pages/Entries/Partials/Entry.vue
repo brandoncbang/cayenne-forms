@@ -1,7 +1,7 @@
 <script setup>
 import { displayDateTime } from '@/helpers.js';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
-import { ArchiveBoxIcon, ArrowLeftIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
+import { ArchiveBoxIcon, ArrowLeftIcon, TrashIcon, XCircleIcon } from '@heroicons/vue/20/solid/index.js';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
 import { router } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -62,14 +62,14 @@ const destroy = () => {
         return;
     }
 
-    router.delete(route('entries.destroy', { entry: props.entry }));
+    router.delete(route('entries.destroy', { entry: props.entry }), { preserveState: false });
 }
 </script>
 
 <template>
     <article>
-        <div class="px-4 py-6 md:flex md:flex-row-reverse md:items-start md:justify-between md:space-x-reverse-5 md:px-6">
-            <div class="flex flex-col justify-stretch space-y-4 space-y sm:flex-row sm:space-x-3 sm:space-y-0 sm:space-x md:justify-end md:mt-0 md:space-x-3">
+        <div class="px-4 py-6 lg:flex lg:flex-row-reverse lg:items-start lg:justify-between lg:space-x-reverse-5 md:px-6">
+            <div class="flex flex-col justify-stretch space-y-4 space-y sm:flex-row sm:space-x-3 sm:space-y-0 md:space-x-reverse lg:justify-end lg:mt-0 lg:space-x-3">
                 <button
                     type="button"
                     class="inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 md:hidden hover:bg-gray-50"
@@ -96,9 +96,19 @@ const destroy = () => {
                     <TrashIcon class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                     {{ entryIsTrashed ? 'Untrash' : 'Trash' }}
                 </button>
+
+                <button
+                    v-if="entryIsTrashed"
+                    class="inline-flex items-center rounded-md bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
+                    type="button"
+                    @click="destroy"
+                >
+                    <XCircleIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                    Delete
+                </button>
             </div>
 
-            <div class="mt-6 md:mt-0">
+            <div class="mt-6 lg:mt-0">
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ 'email' in entry.data ? entry.data.email : 'Untitled' }}
                 </h2>
