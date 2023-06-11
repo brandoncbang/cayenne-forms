@@ -41,6 +41,22 @@ class Entry extends Model
     ];
 
     /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this
+            ->where($field ?? 'id', $value)
+            ->withArchived()
+            ->withTrashed()
+            ->first();
+    }
+
+    /**
      * Get the columns that should receive a unique identifier.
      */
     public function uniqueIds(): array

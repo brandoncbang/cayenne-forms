@@ -54,14 +54,8 @@ class EntryController extends Controller
     }
 
     /** @throws AuthorizationException */
-    public function show(string $uuid): JsonResponse
+    public function show(Entry $entry): JsonResponse
     {
-        $entry = Entry::query()
-            ->withArchived()
-            ->withTrashed()
-            ->where('uuid', $uuid)
-            ->firstOrFail();
-
         $this->authorize('view', $entry);
 
         return response()->json([
