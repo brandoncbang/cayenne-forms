@@ -246,7 +246,8 @@ const deselectEntry = () => {
                                 {{ tabs.find(tab => tab.current)?.name }}
                             </h3>
                             <p class="mt-1 text-sm text-gray-500">
-                                You have {{ displayNumber(entries.total, 999_999) }} entries here.
+                                You have {{ displayNumber(entries.total, 999_999) }}
+                                {{ entries.total === 1 ? 'entry' : 'entries' }} here.
                             </p>
                         </div>
                     </div>
