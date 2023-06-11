@@ -63,9 +63,19 @@ class EntryController extends Controller
         ]);
     }
 
-    public function update(Request $request, Entry $entry)
+    /** @throws AuthorizationException */
+    public function update(Request $request, Entry $entry): RedirectResponse
     {
-        //
+        $this->authorize('update', $entry);
+
+        $entry->update(
+            $request->validate([
+                'archived_at' => ['nullable', 'date'],
+                'deleted_at' => ['nullable', 'date'],
+            ]),
+        );
+
+        return redirect()->back();
     }
 
     public function destroy(string $id)

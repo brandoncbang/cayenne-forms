@@ -48,10 +48,6 @@ const currentTab = computed(() => {
 })
 
 const selectEntry = (entry) => {
-    if (entry.uuid === selectedEntry.value?.uuid) {
-        return;
-    }
-
     loadingSelectedEntry.value = true;
 
     axios
@@ -111,6 +107,7 @@ const deselectEntry = () => {
                             :href="tab.href"
                             :class="[tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700', tabIdx === 0 ? 'rounded-l-lg' : '', tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '', 'group relative inline-flex justify-center items-center min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10']"
                             :aria-current="tab.current ? 'page' : undefined"
+                            preserve-state="true"
                         >
                             <component
                                 :is="tab.icon"
@@ -142,6 +139,7 @@ const deselectEntry = () => {
                             class="block w-full px-4 py-5 text-left sm:px-6"
                             :class="{ 'bg-indigo-100': entry.uuid === selectedEntry?.uuid }"
                             type="button"
+                            :disabled="entry.uuid === selectedEntry?.uuid"
                             @click="selectEntry(entry)"
                         >
                             <span class="flex items-baseline justify-between gap-x-4">
@@ -167,6 +165,7 @@ const deselectEntry = () => {
                         :entry="selectedEntry"
                         class="max-w-full md:h-full md:overflow-y-auto"
                         @close="deselectEntry"
+                        @update="selectEntry(selectedEntry)"
                     />
                     <!-- No entry selected -->
                     <div v-else class="hidden md:flex md:flex-col md:justify-center md:h-full md:px-6 md:py-5">

@@ -38,6 +38,8 @@ class Entry extends Model
         'ip_address',
         'user_agent',
         'data',
+        'archived_at',
+        'deleted_at',
     ];
 
     /**

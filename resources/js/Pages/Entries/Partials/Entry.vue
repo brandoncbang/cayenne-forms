@@ -10,7 +10,7 @@ const props = defineProps({
     entry: Object,
 });
 
-defineEmits(['close']);
+const emit = defineEmits(['close', 'update']);
 
 const entryIsArchived = computed(() => {
     return props.entry.archived_at !== null;
@@ -19,20 +19,26 @@ const entryIsTrashed = computed(() => {
     return props.entry.deleted_at !== null;
 })
 
+const updateEntry = (data) => {
+    router.patch(route('entries.update', { entry: props.entry }), data, {
+        onSuccess: () => emit('update'),
+    });
+};
+
 const archive = () => {
     if (!confirm('Are you sure you want to archive this entry?')) {
         return;
     }
 
-    router.patch(route('entries.update', { entry: props.entry }, {
-        archived_at: Date.now(),
-    }));
+    updateEntry({
+        archived_at: (new Date()).toISOString(),
+    });
 };
 
 const unarchive = () => {
-    router.patch(route('entries.update', { entry: props.entry }, {
-        archived_at: null,
-    }));
+    updateEntry({
+        archived_at: null
+    });
 };
 
 const trash = () => {
@@ -40,13 +46,13 @@ const trash = () => {
         return;
     }
 
-    router.patch(route('entries.update', { entry: props.entry }), {
-        deleted_at: Date.now(),
+    updateEntry({
+        deleted_at: (new Date()).toISOString(),
     });
 };
 
 const untrash = () => {
-    router.patch(route('entries.update', { entry: props.entry }), {
+    updateEntry({
         deleted_at: null,
     });
 };

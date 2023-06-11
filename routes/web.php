@@ -45,8 +45,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/forms/{form:uuid}/entries', [EntryController::class, 'index'])->name('forms.entries.index');
     Route::get('/entries/{entry:uuid}', [EntryController::class, 'show'])->name('entries.show');
-//    Route::patch('/entries/{entry:uuid}', [EntryController::class, 'update'])->name('entries.update');
-//    Route::delete('/entries/{entry:uuid}', [EntryController::class, 'destroy'])->name('entries.destroy');
+    Route::patch('/entries/{entry:uuid}', [EntryController::class, 'update'])->name('entries.update');
+    Route::delete('/entries/{entry:uuid}', [EntryController::class, 'destroy'])->name('entries.destroy');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
