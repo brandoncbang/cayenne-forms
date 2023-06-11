@@ -30,4 +30,13 @@ class EntryFactory extends Factory
             ],
         ];
     }
+
+    public function archived(): EntryFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'archived_at' => now(),
+            ];
+        });
+    }
 }

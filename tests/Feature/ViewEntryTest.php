@@ -34,7 +34,7 @@ class ViewEntryTest extends TestCase
                     ->where('ip_address', $entry->ip_address)
                     ->where('user_agent', $entry->user_agent)
                     ->where('data', $entry->data)
-                    ->whereNot('archived_at', null)
+                    ->where('archived_at', null)
                     ->etc()
                 )
             );
@@ -62,5 +62,45 @@ class ViewEntryTest extends TestCase
             ->getJson("/entries/{$entry->uuid}");
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    #[Test]
+    public function user_can_view_an_archived_entry()
+    {
+        $archived = Entry::factory()->archived()->create();
+
+        $response = $this
+            ->actingAs($archived->form->user)
+            ->getJson("/entries/{$archived->uuid}");
+
+        $response
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJson(fn (Assert $json) => $json
+                ->has('entry', fn (Assert $json) => $json
+                    ->where('uuid', $archived->uuid)
+                    ->whereNot('archived_at', null)
+                    ->etc()
+                )
+            );
+    }
+
+    #[Test]
+    public function user_can_view_a_trashed_entry()
+    {
+        $trashed = Entry::factory()->trashed()->create();
+
+        $response = $this
+            ->actingAs($trashed->form->user)
+            ->getJson("/entries/{$trashed->uuid}");
+
+        $response
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJson(fn (Assert $json) => $json
+                ->has('entry', fn (Assert $json) => $json
+                    ->where('uuid', $trashed->uuid)
+                    ->whereNot('deleted_at', null)
+                    ->etc()
+                )
+            );
     }
 }
