@@ -99,4 +99,26 @@ class ListEntriesTest extends TestCase
             ->where('entries.data.0.uuid', $archived->uuid)
         );
     }
+
+    #[Test]
+    public function user_can_see_archived_entries_in_trash()
+    {
+        $form = Form::factory()->create();
+
+        $archivedAndTrashed = Entry::factory()
+            ->for($form)
+            ->create([
+                'archived_at' => now(),
+                'deleted_at' => now(),
+            ]);
+
+        $response = $this
+            ->actingAs($form->user)
+            ->get("/forms/{$form->uuid}/entries?filter=trashed");
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->has('entries.data', 1)
+            ->where('entries.data.0.uuid', $archivedAndTrashed->uuid)
+        );
+    }
 }

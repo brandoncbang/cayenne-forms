@@ -5,6 +5,8 @@ namespace App\Models\Scopes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Arr;
 
 class ArchivingScope implements Scope
 {
@@ -20,6 +22,11 @@ class ArchivingScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
+        // Don't hide archived models when querying for soft deleted models.
+        if (in_array(SoftDeletingScope::class, $builder->removedScopes())) {
+            return;
+        }
+
         $builder->whereNull('archived_at');
     }
 
