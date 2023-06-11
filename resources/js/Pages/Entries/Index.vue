@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { computed, ref } from 'vue';
-import { displayDate, displayNumber, getFormEmbedCode } from '@/helpers.js';
+import { displayDate, displayNumber, getEntryContent, getEntryTitle, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
 import { ArchiveBoxIcon, InboxArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
 import { router, Link } from '@inertiajs/vue3';
@@ -145,7 +145,7 @@ const deselectEntry = () => {
                         >
                             <span class="flex items-baseline justify-between gap-x-4">
                                 <span class="text-sm font-semibold leading-6 text-gray-900">
-                                    <span class="sr-only">Show entry, </span>{{ Object.values(entry.data)[0] }}
+                                    <span class="sr-only">Show entry, </span>{{ getEntryTitle(entry) }}
                                 </span>
                                 <span class="flex-none text-xs text-gray-600">
                                     <time :datetime="entry.created_at">
@@ -153,8 +153,11 @@ const deselectEntry = () => {
                                     </time>
                                 </span>
                             </span>
-                            <span class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600">
-                                {{ Object.values(entry.data)[1] }}
+                            <span
+                                v-if="getEntryContent(entry)"
+                                class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
+                            >
+                                {{ getEntryContent(entry) }}
                             </span>
                         </button>
                     </li>

@@ -20,3 +20,25 @@ export function getFormEmbedCode(form) {
 </form>
     `.trim();
 }
+
+export function getEntryTitle(entry) {
+    if ('email' in entry.data) {
+        return entry.data.email;
+    }
+    if ('subject' in entry.data) {
+        return entry.data.subject;
+    }
+
+    return '(Untitled)';
+}
+
+export function getEntryContent(entry) {
+    if ('message' in entry.data) {
+        return entry.data.message;
+    }
+    if ('description' in entry.data) {
+        return entry.data.description;
+    }
+
+    return null;
+}
