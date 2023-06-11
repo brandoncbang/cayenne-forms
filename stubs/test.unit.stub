@@ -2,15 +2,16 @@
 
 namespace {{ namespace }};
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class {{ class }} extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
-    public function test_example(): void
+    #[Test]
+    public function example_test()
     {
-        $this->assertTrue(true);
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
     }
 }
