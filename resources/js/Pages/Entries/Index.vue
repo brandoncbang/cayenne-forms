@@ -59,7 +59,7 @@ const selectEntry = (entry) => {
             selectedEntry.value = response.data.entry;
             // TODO: Focus inside entry container
         })
-        .catch(error => {
+        .catch(_error => {
             router.reload();
             selectedEntry.value = null;
             // TODO: Focus outside entry container
@@ -274,13 +274,18 @@ const deselectEntry = () => {
                             Nothing here yet
                         </h2>
                         <p class="mt-1 text-sm text-gray-500">
-                            You haven’t received any entries for this form yet. To start receiving entries, add this
-                            form's
-                            <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
-                            to your website's HTML.
+                            <span v-if="currentTab?.name === 'Inbox'">
+                                Add this form's
+                                <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
+                                to your website's HTML, and any new form entries you receive will show up here.
+                            </span>
+                            <span v-else>
+                                Any form entries you {{ currentTab?.name.toLocaleLowerCase() }} will show up here.
+                            </span>
                         </p>
                     </div>
                     <CopyButton
+                        v-if="currentTab?.name === 'Inbox'"
                         class="block mt-6 mx-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         :value="getFormEmbedCode(form)"
                     >
