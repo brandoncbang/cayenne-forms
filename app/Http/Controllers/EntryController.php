@@ -46,6 +46,7 @@ class EntryController extends Controller
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
             'data' => $request->all(),
+            'deleted_at' => $request->has($form->honeypot_field) ? now() : null,
         ]);
 
         if (is_null($form->success_url)) {
