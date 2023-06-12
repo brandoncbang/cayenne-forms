@@ -74,7 +74,7 @@ const deselectEntry = () => {
 </script>
 
 <template>
-    <AuthenticatedLayout :title="`Entries for &ldquo;${form.name}&rdquo;`">
+    <AuthenticatedLayout :title="form.name">
         <template #actions>
             <Link
                 :href="route('forms.edit', { form: props.form })"
