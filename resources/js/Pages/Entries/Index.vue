@@ -108,7 +108,6 @@ const deselectEntry = () => {
                             :href="tab.href"
                             :class="[tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700', tabIdx === 0 ? 'rounded-l-lg' : '', tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '', 'group relative inline-flex justify-center items-center min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10']"
                             :aria-current="tab.current ? 'page' : undefined"
-                            preserve-state="true"
                         >
                             <component
                                 :is="tab.icon"
@@ -129,7 +128,7 @@ const deselectEntry = () => {
         </div>
         <div class="overflow-hidden mt-2 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
             <!-- Entries -->
-            <div v-if="entries.total > 0 || selectedEntry" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
+            <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <!-- Entry selection list -->
                 <ul
                     class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-1/3"
@@ -169,7 +168,7 @@ const deselectEntry = () => {
                         :entry="selectedEntry"
                         class="max-w-full md:h-full md:overflow-y-auto"
                         @close="deselectEntry"
-                        @update="selectEntry(selectedEntry)"
+                        @update="deselectEntry"
                     />
                     <!-- No entry selected -->
                     <div v-else class="hidden md:flex md:flex-col md:justify-center md:h-full md:px-6 md:py-5">
