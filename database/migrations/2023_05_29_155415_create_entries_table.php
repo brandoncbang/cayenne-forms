@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid()->unique();
             $table->string('ip_address');
             $table->text('user_agent')->nullable();
-            $table->json('data');
+            $table->text('data');
             $table->timestamps();
             $table->timestamp('archived_at')->nullable();
             $table->softDeletes();
