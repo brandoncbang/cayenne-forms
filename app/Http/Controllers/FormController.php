@@ -14,7 +14,13 @@ class FormController extends Controller
 {
     public function index(Request $request): InertiaResponse
     {
-        $forms = $request->user()->forms()->orderBy('id', 'desc')->paginate(8)->onEachSide(2);
+        $forms = $request
+            ->user()
+            ->forms()
+            ->with(['latest_entry'])
+            ->orderBy('id', 'desc')
+            ->paginate(8)
+            ->onEachSide(2);
 
         return inertia('Forms/Index', [
             'forms' => $forms,

@@ -4,6 +4,7 @@ import { Link } from '@inertiajs/vue3';
 import { EllipsisVerticalIcon, PlusIcon, PlusSmallIcon } from '@heroicons/vue/20/solid';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Pagination from '@/Components/Dashboard/Pagination.vue';
+import { displayDateTime } from '@/helpers.js';
 
 const props = defineProps({
     'forms': Object,
@@ -40,21 +41,13 @@ const maxUnreadEntriesCountDisplayed = 999_999;
                 >
                     <div class="min-w-0">
                         <div class="flex items-start gap-x-3">
-                            <p class="text-sm font-semibold leading-6 text-gray-900">
+                            <h2 class="text-sm font-semibold leading-6 text-gray-900">
                                 {{ form.name }}
-                            </p>
-                            <p
-                                v-if="form.unread_entries_count > 0"
-                                class="inline-flex items-center gap-x-1.5 rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700"
-                            >
-                                <svg class="h-1.5 w-1.5 fill-blue-500" viewBox="0 0 6 6" aria-hidden="true">
-                                    <circle cx="3" cy="3" r="3" />
-                                </svg>
-                                {{
-                                    form.unread_entries_count <= maxUnreadEntriesCountDisplayed
-                                        ? form.unread_entries_count.toLocaleString()
-                                        : `${maxUnreadEntriesCountDisplayed.toLocaleString()}+`
-                                }} Unread
+                            </h2>
+                        </div>
+                        <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                            <p class="whitespace-nowrap">
+                                Last entry at <time :datetime="form.latest_entry.created_at">{{ displayDateTime(form.latest_entry.created_at) }}</time>
                             </p>
                         </div>
                     </div>
