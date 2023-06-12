@@ -9,8 +9,6 @@ import { displayDateTime } from '@/helpers.js';
 const props = defineProps({
     'forms': Object,
 });
-
-const maxUnreadEntriesCountDisplayed = 999_999;
 </script>
 
 <template>
