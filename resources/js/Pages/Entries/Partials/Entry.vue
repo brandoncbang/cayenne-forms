@@ -166,7 +166,16 @@ const destroy = () => {
                         {{ key[0].toLocaleUpperCase() + key.slice(1) }}
                     </dt>
                     <dd class="mt-1 text-sm leading-6 whitespace-pre-wrap text-gray-700 sm:col-span-3 sm:mt-0">
-                        {{ value }}
+                        <a
+                            v-if="key === 'email'"
+                            :href="`mailto:${value}`"
+                            class="inline-flex items-center font-medium text-indigo-600 hover:text-indigo-500"
+                        >
+                            {{ value }}
+                        </a>
+                        <span v-else>
+                            {{ value }}
+                        </span>
                     </dd>
                 </div>
             </dl>
