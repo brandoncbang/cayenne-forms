@@ -24,7 +24,8 @@ class EntryController extends Controller
             ->when($request->query('filter') === 'trashed', fn ($query) => $query->onlyTrashed())
             ->orderByDesc('id')
             ->paginate(20)
-            ->onEachSide(2);
+            ->onEachSide(2)
+            ->withQueryString();
 
         return inertia('Entries/Index', [
             'form' => $form,
