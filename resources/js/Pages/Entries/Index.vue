@@ -130,18 +130,18 @@ const deselectEntry = () => {
 
             <SimplePagination v-if="entries.total > 0" :paginator="entries" />
         </div>
-        <div class="overflow-hidden mt-2 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:h-3/4">
+        <div class="overflow-hidden mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-3/4">
             <!-- Entries -->
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <!-- Entry selection list -->
                 <ul
-                    class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-1/3"
+                    class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-96"
                     :class="{ 'hidden md:block': selectedEntry }"
                 >
                     <li
                         v-for="entry in entries.data"
                         key="entry.uuid"
-                        class="sm:first:rounded-t-xl sm:last:rounded-b-xl md:first:rounded-tr-none md:last:rounded-br-none focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+                        class="sm:first:rounded-t-xl sm:last:rounded-b-xl sm:only:rounded-b-none md:first:rounded-tr-none md:last:rounded-br-none focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
                         :class="{ 'bg-indigo-100': entry.uuid === selectedEntry?.uuid }"
                     >
                         <button
