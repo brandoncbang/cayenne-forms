@@ -36,9 +36,15 @@ class EntryController extends Controller
     {
         abort_if($request->isJson(), Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
 
+        [$ipAddress, $userAgent] = [$request->ip(), $request->userAgent()];
+
+        if (config('cayenne.remove_sensitive_info', true)) {
+            [$ipAddress, $userAgent] = ['(Removed for privacy)', '(Removed for privacy)'];
+        }
+
         $form->entries()->create([
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
+            'ip_address' => $ipAddress,
+            'user_agent' => $userAgent,
             'data' => $request->all(),
         ]);
 
