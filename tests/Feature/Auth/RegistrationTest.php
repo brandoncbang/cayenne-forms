@@ -29,7 +29,7 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/');
 
         $invite->refresh();
 
