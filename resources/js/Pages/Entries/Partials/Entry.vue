@@ -8,9 +8,20 @@ import { computed } from 'vue';
 
 const props = defineProps({
     entry: Object,
+    honeypot_field: {
+        type: String,
+        default: null,
+    },
 });
 
 const emit = defineEmits(['close', 'update']);
+
+const entryData = computed(() => {
+    return Object.fromEntries(
+        Object.entries(props.entry.data)
+            .filter(([key, _]) => key !== props.honeypot_field),
+    );
+});
 
 const entryIsArchived = computed(() => {
     return props.entry.archived_at !== null;
@@ -159,7 +170,7 @@ const destroy = () => {
         <div class="border-t border-gray-100">
             <dl class="divide-y divide-gray-100">
                 <div
-                    v-for="(value, key) in entry.data"
+                    v-for="(value, key) in entryData"
                     class="px-4 py-6 even:bg-gray-50 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6"
                 >
                     <dt class="text-sm font-medium leading-6 text-gray-900">

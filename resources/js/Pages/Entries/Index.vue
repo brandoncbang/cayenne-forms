@@ -166,6 +166,7 @@ const deselectEntry = () => {
                     <Entry
                         v-if="selectedEntry"
                         :entry="selectedEntry"
+                        :honeypot_field="form.honeypot_field"
                         class="max-w-full md:h-full md:overflow-y-auto"
                         @close="deselectEntry"
                         @update="deselectEntry"
