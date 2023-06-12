@@ -49,6 +49,10 @@ const currentTab = computed(() => {
 })
 
 const selectEntry = (entry) => {
+    if (entry.uuid === selectedEntry.value?.uuid) {
+        return;
+    }
+
     loadingSelectedEntry.value = true;
 
     axios
@@ -134,12 +138,15 @@ const deselectEntry = () => {
                     class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-1/3"
                     :class="{ 'hidden md:block': selectedEntry }"
                 >
-                    <li v-for="entry in entries.data" key="entry.uuid">
+                    <li
+                        v-for="entry in entries.data"
+                        key="entry.uuid"
+                        class="sm:first:rounded-t-xl sm:last:rounded-b-xl md:first:rounded-tr-none md:last:rounded-br-none focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+                        :class="{ 'bg-indigo-100': entry.uuid === selectedEntry?.uuid }"
+                    >
                         <button
-                            class="block w-full px-4 py-5 text-left sm:px-6"
-                            :class="{ 'bg-indigo-100': entry.uuid === selectedEntry?.uuid }"
+                            class="block w-full px-4 py-5 text-left sm:px-6 focus:outline-none"
                             type="button"
-                            :disabled="entry.uuid === selectedEntry?.uuid"
                             @click="selectEntry(entry)"
                         >
                             <span class="flex items-baseline justify-between gap-x-4">
