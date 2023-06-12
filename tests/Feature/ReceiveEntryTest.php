@@ -153,4 +153,28 @@ class ReceiveEntryTest extends TestCase
         $entry = Entry::withTrashed()->first();
         $this->assertNotNull($entry->deleted_at);
     }
+
+    #[Test]
+    public function entry_is_not_trashed_when_the_form_honeypot_field_is_empty()
+    {
+        $form = Form::factory()->create([
+            'honeypot_field' => 'url',
+        ]);
+
+        $this
+            ->withServerVariables([
+                'REMOTE_ADDR' => '76.163.245.123',
+                'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_6_8 rv:4.0; sl-SI) AppleWebKit/532.33.2 (KHTML, like Gecko) Version/4.0.5 Safari/532.33.2',
+            ])
+            ->post("/f/{$form->uuid}", [
+                'url' => '',
+                'name' => 'John Doe',
+                'email' => 'johndoe@example.com',
+                'phone' => '(123) 456-7890',
+                'message' => 'Lorem ipsum dolor sit amet.',
+            ]);
+
+        $entry = Entry::first();
+        $this->assertNull($entry->deleted_at);
+    }
 }

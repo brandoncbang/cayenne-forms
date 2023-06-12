@@ -42,11 +42,13 @@ class EntryController extends Controller
             [$ipAddress, $userAgent] = ['(Removed for privacy)', '(Removed for privacy)'];
         }
 
+        $entryIsSpam = ! is_null($form->honeypot_field) && $request->filled($form->honeypot_field);
+
         $form->entries()->create([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
             'data' => $request->all(),
-            'deleted_at' => $request->has($form->honeypot_field) ? now() : null,
+            'deleted_at' => $entryIsSpam ? now() : null,
         ]);
 
         if (is_null($form->success_url)) {
