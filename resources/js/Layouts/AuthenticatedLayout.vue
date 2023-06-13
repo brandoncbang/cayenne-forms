@@ -16,7 +16,7 @@ const slots = useSlots();
 <template>
     <Head :title="title" />
 
-    <div class="flex flex-col items-stretch h-full">
+    <div class="flex flex-col items-stretch">
         <Disclosure as="nav" class="flex-shrink-0 bg-white shadow-sm" v-slot="{ open }">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between">
@@ -141,8 +141,8 @@ const slots = useSlots();
                     </div>
                 </div>
             </header>
-            <main class="flex-1 min-h-0">
-                <div class="h-full mx-auto max-w-7xl py-8 sm:px-6 lg:px-8">
+            <main class="flex-1">
+                <div class="min-h-full mx-auto max-w-7xl py-8 sm:px-6 lg:px-8">
                     <slot />
                 </div>
             </main>

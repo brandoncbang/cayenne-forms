@@ -130,7 +130,7 @@ const deselectEntry = () => {
 
             <SimplePagination v-if="entries.total > 0" :paginator="entries" />
         </div>
-        <div class="mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-3/4">
+        <div class="mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-[60vh]">
             <!-- Entries -->
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <!-- Entry selection list -->
@@ -149,22 +149,22 @@ const deselectEntry = () => {
                             type="button"
                             @click="selectEntry(entry)"
                         >
-                            <span class="flex items-baseline justify-between gap-x-4">
-                                <span class="text-sm font-semibold leading-6 text-gray-900">
-                                    <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
-                                </span>
-                                <span class="flex-none text-xs text-gray-600">
-                                    <time :datetime="entry.created_at">
-                                        {{ displayDate(entry.created_at) }}
-                                    </time>
-                                </span>
-                            </span>
+                    <span class="flex items-baseline justify-between gap-x-4">
+                        <span class="text-sm font-semibold leading-6 text-gray-900">
+                            <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
+                        </span>
+                        <span class="flex-none text-xs text-gray-600">
+                            <time :datetime="entry.created_at">
+                                {{ displayDate(entry.created_at) }}
+                            </time>
+                        </span>
+                    </span>
                             <span
                                 v-if="displayEntryContent(entry)"
                                 class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
                             >
-                                {{ displayEntryContent(entry) }}
-                            </span>
+                        {{ displayEntryContent(entry) }}
+                    </span>
                         </button>
                     </li>
                 </ul>
@@ -200,7 +200,7 @@ const deselectEntry = () => {
                 <div class="mx-auto max-w-lg">
                     <div class="text-center">
                         <svg
-                            class="mx-auto h-12 w-12 -mt-2 text-gray-400"
+                            class="mx-auto h-12 w-12 -mt-1.5 text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -217,14 +217,14 @@ const deselectEntry = () => {
                             Nothing here yet
                         </h2>
                         <p class="mt-1 text-sm text-gray-500">
-                            <span v-if="currentTab?.name === 'Inbox'">
-                                Add this form's
-                                <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
-                                to your website's HTML, and any new form entries you receive will show up here.
-                            </span>
+                    <span v-if="currentTab?.name === 'Inbox'">
+                        Add this form's
+                        <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
+                        to your website's HTML, and any new form entries you receive will show up here.
+                    </span>
                             <span v-else>
-                                Any form entries you {{ currentTab?.name.toLocaleLowerCase() }} will show up here.
-                            </span>
+                        Any form entries you {{ currentTab?.name.toLocaleLowerCase() }} will show up here.
+                    </span>
                         </p>
                     </div>
                     <CopyButton
