@@ -17,6 +17,36 @@ export function displayObjectKey(key) {
         .join(' ');
 }
 
+export function displayEntryTitle(entry) {
+    let keys = Object.keys(entry.data).map(key => key.toLowerCase());
+
+    let candidates = [
+        ...keys.filter(key => key === 'email'),
+        ...keys.filter(key => key !== 'email' && key.endsWith('email')),
+        ...keys.filter(key => key === 'subject'),
+        ...keys.filter(key => key !== 'subject' && key.endsWith('subject')),
+    ];
+
+    return entry.data[candidates[0]] ?? '(Untitled)';
+}
+
+export function displayEntryContent(entry) {
+    let keys = Object.keys(entry.data).map(key => key.toLowerCase());
+
+    let candidates = [
+        ...keys.filter(key => key === 'message'),
+        ...keys.filter(key => key !== 'message' && key.endsWith('message')),
+        ...keys.filter(key => key === 'description'),
+        ...keys.filter(key => key !== 'description' && key.endsWith('description')),
+    ];
+
+    return entry.data[candidates[0]] ?? null;
+}
+
+export function entryDataKeyIsEmail(key) {
+    return key.toLowerCase() === 'email' || key.toLowerCase().endsWith('email');
+}
+
 export function getFormEmbedCode(form) {
     return `
 <form
@@ -26,26 +56,4 @@ export function getFormEmbedCode(form) {
     <!-- ... -->
 </form>
     `.trim();
-}
-
-export function getEntryTitle(entry) {
-    if ('email' in entry.data) {
-        return entry.data.email;
-    }
-    if ('subject' in entry.data) {
-        return entry.data.subject;
-    }
-
-    return '(Untitled)';
-}
-
-export function getEntryContent(entry) {
-    if ('message' in entry.data) {
-        return entry.data.message;
-    }
-    if ('description' in entry.data) {
-        return entry.data.description;
-    }
-
-    return null;
 }
