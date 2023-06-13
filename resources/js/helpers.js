@@ -10,6 +10,13 @@ export function displayDateTime(date) {
     return (new Date(date)).toLocaleString();
 }
 
+export function displayObjectKey(key) {
+    return key
+        .split(/[-_]/)
+        .map(word => word[0].toLocaleUpperCase() + word.slice(1))
+        .join(' ');
+}
+
 export function getFormEmbedCode(form) {
     return `
 <form
