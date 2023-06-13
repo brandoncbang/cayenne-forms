@@ -46,7 +46,7 @@ const tabs = computed(() => {
 });
 const currentTab = computed(() => {
     return tabs.value.find(tab => tab.current);
-})
+});
 
 const selectEntry = (entry) => {
     if (entry.uuid === selectedEntry.value?.uuid) {
@@ -149,22 +149,22 @@ const deselectEntry = () => {
                             type="button"
                             @click="selectEntry(entry)"
                         >
-                    <span class="flex items-baseline justify-between gap-x-4">
-                        <span class="text-sm font-semibold leading-6 text-gray-900">
-                            <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
-                        </span>
-                        <span class="flex-none text-xs text-gray-600">
-                            <time :datetime="entry.created_at">
-                                {{ displayDate(entry.created_at) }}
-                            </time>
-                        </span>
-                    </span>
+                            <span class="flex items-baseline justify-between gap-x-4">
+                                <span class="text-sm font-semibold leading-6 text-gray-900">
+                                    <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
+                                </span>
+                                <span class="flex-none text-xs text-gray-600">
+                                    <time :datetime="entry.created_at">
+                                        {{ displayDate(entry.created_at) }}
+                                    </time>
+                                </span>
+                            </span>
                             <span
                                 v-if="displayEntryContent(entry)"
                                 class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
                             >
-                        {{ displayEntryContent(entry) }}
-                    </span>
+                                {{ displayEntryContent(entry) }}
+                            </span>
                         </button>
                     </li>
                 </ul>
@@ -217,14 +217,14 @@ const deselectEntry = () => {
                             Nothing here yet
                         </h2>
                         <p class="mt-1 text-sm text-gray-500">
-                    <span v-if="currentTab?.name === 'Inbox'">
-                        Add this form's
-                        <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
-                        to your website's HTML, and any new form entries you receive will show up here.
-                    </span>
+                            <span v-if="currentTab?.name === 'Inbox'">
+                                Add this form's
+                                <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
+                                to your website's HTML, and any new form entries you receive will show up here.
+                            </span>
                             <span v-else>
-                        Any form entries you {{ currentTab?.name.toLocaleLowerCase() }} will show up here.
-                    </span>
+                                Any form entries you {{ currentTab?.name.toLocaleLowerCase() }} will show up here.
+                            </span>
                         </p>
                     </div>
                     <CopyButton
