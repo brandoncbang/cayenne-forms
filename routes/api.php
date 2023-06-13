@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/f/{form:uuid}', [EntryController::class, 'store'])->name('forms.entries.store');
 Route::get('/success', fn () => view('entries.success'))->name('entries.success');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::prefix('api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+})->middleware('auth:sanctum');
