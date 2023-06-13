@@ -130,12 +130,12 @@ const deselectEntry = () => {
 
             <SimplePagination v-if="entries.total > 0" :paginator="entries" />
         </div>
-        <div class="overflow-hidden mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-3/4">
+        <div class="mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-3/4">
             <!-- Entries -->
             <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
                 <!-- Entry selection list -->
                 <ul
-                    class="overflow-y-auto divide-y divide-gray-100 md:flex-shrink-0 md:w-96"
+                    class="z-10 overflow-hidden overflow-y-auto divide-y divide-gray-100 sm:flex-shrink-0 sm:rounded-xl md:w-96 md:rounded-r-none focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                     :class="{ 'hidden md:block': selectedEntry }"
                 >
                     <li
@@ -168,7 +168,7 @@ const deselectEntry = () => {
                         </button>
                     </li>
                 </ul>
-                <div class="flex-1">
+                <div class="flex-1 overflow-hidden sm:rounded-xl md:rounded-l-none">
                     <!-- Show selected entry -->
                     <Entry
                         v-if="selectedEntry"
@@ -196,7 +196,7 @@ const deselectEntry = () => {
                 </div>
             </div>
             <!-- No entries -->
-            <div v-else class="flex items-center h-full px-4 py-5 sm:px-6">
+            <div v-else class="flex items-center h-full overflow-hidden px-4 py-5 sm:px-6 sm:rounded-xl">
                 <div class="mx-auto max-w-lg">
                     <div class="text-center">
                         <svg
