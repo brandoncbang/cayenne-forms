@@ -19,9 +19,6 @@ use Inertia\Inertia;
 |
 */
 
-Route::post('/f/{form:uuid}', [EntryController::class, 'store'])->name('forms.entries.store');
-Route::get('/success', fn () => view('entries.success'))->name('entries.success');
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
         return Inertia::render('Dashboard');
