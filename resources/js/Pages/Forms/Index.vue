@@ -43,7 +43,10 @@ const props = defineProps({
                                 {{ form.name }}
                             </h2>
                         </div>
-                        <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                        <div
+                            v-if="form.latest_entry"
+                            class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500"
+                        >
                             <p class="whitespace-nowrap">
                                 Last entry at <time :datetime="form.latest_entry.created_at">{{ displayDateTime(form.latest_entry.created_at) }}</time>
                             </p>
