@@ -25,6 +25,8 @@ export function displayEntryTitle(entry) {
         ...keys.filter(key => key !== 'email' && key.endsWith('email')),
         ...keys.filter(key => key === 'subject'),
         ...keys.filter(key => key !== 'subject' && key.endsWith('subject')),
+        ...keys.filter(key => key === 'title'),
+        ...keys.filter(key => key !== 'title' && key.endsWith('title')),
     ];
 
     return entry.data[candidates[0]] ?? '(Untitled)';
