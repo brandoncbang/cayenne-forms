@@ -43,8 +43,8 @@ export function displayEntryContent(entry) {
     return entry.data[candidates[0]] ?? null;
 }
 
-export function entryDataKeyIsEmail(key) {
-    return key.toLowerCase() === 'email' || key.toLowerCase().endsWith('email');
+export function entryFieldIsEmail(key, value) {
+    return key.toLowerCase().endsWith('email') && typeof value === 'string' && value.includes('@');
 }
 
 export function getFormEmbedCode(form) {

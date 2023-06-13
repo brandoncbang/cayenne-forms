@@ -1,5 +1,5 @@
 <script setup>
-import { displayDateTime, displayObjectKey, displayEntryTitle, entryDataKeyIsEmail } from '@/helpers.js';
+import { displayDateTime, displayObjectKey, displayEntryTitle, entryFieldIsEmail } from '@/helpers.js';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import { ArchiveBoxIcon, ArrowLeftIcon, TrashIcon, XCircleIcon } from '@heroicons/vue/20/solid/index.js';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
@@ -178,7 +178,7 @@ const destroy = () => {
                     </dt>
                     <dd class="mt-1 text-sm leading-6 whitespace-pre-wrap text-gray-700 sm:col-span-3 sm:mt-0">
                         <a
-                            v-if="entryDataKeyIsEmail(key)"
+                            v-if="entryFieldIsEmail(key, value)"
                             :href="`mailto:${value}`"
                             class="inline-flex items-center font-medium text-indigo-600 hover:text-indigo-500"
                         >
