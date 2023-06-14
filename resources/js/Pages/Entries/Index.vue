@@ -144,31 +144,35 @@ const hideEntryPanel = () => {
                     ref="tabs"
                 >
                     <Tab
+                        as="template"
                         v-slot="{ selected }"
                         v-for="entry in entries.data"
                         :key="entry.uuid"
-                        class="block w-full px-4 py-5 text-left sm:px-6 sm:first:rounded-t-xl sm:last:rounded-b-xl md:first:rounded-tr-none md:last:rounded-br-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 focus:outline-none"
-                        :class="{ 'bg-indigo-100': selected }"
-                        @click="showEntryPanel"
-                        @keydown.enter="showEntryPanel"
-                        @keydown.space="showEntryPanel"
                     >
-                        <span class="flex items-baseline justify-between gap-x-4">
-                            <span class="text-sm font-semibold leading-6 text-gray-900">
-                                <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
-                            </span>
-                            <span class="flex-none text-xs text-gray-600">
-                                <time :datetime="entry.created_at">
-                                    {{ displayDate(entry.created_at) }}
-                                </time>
-                            </span>
-                        </span>
-                        <span
-                            v-if="displayEntryContent(entry)"
-                            class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
+                        <button
+                            class="block w-full px-4 py-5 text-left sm:px-6 sm:first:rounded-t-xl sm:last:rounded-b-xl md:first:rounded-tr-none md:last:rounded-br-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 focus:outline-none"
+                            :class="{ 'bg-indigo-100': selected }"
+                            @click="showEntryPanel"
+                            @keydown.enter="showEntryPanel"
+                            @keydown.space="showEntryPanel"
                         >
-                            {{ displayEntryContent(entry) }}
-                        </span>
+                            <span class="flex items-baseline justify-between gap-x-4">
+                                <span class="text-sm font-semibold leading-6 text-gray-900">
+                                    <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
+                                </span>
+                                <span class="flex-none text-xs text-gray-600">
+                                    <time :datetime="entry.created_at">
+                                        {{ displayDate(entry.created_at) }}
+                                    </time>
+                                </span>
+                            </span>
+                                <span
+                                    v-if="displayEntryContent(entry)"
+                                    class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
+                                >
+                                {{ displayEntryContent(entry) }}
+                            </span>
+                        </button>
                     </Tab>
                 </TabList>
                 <TabPanels
@@ -177,14 +181,17 @@ const hideEntryPanel = () => {
                     ref="panels"
                 >
                     <TabPanel
-                        :as="Entry"
+                        as="template"
                         v-for="entry in entries.data"
                         :key="entry.uuid"
-                        :entry="entry"
-                        :honeypot_field="form.honeypot_field"
-                        class="max-w-full md:h-full md:overflow-y-auto"
-                        @close="hideEntryPanel"
-                    />
+                    >
+                        <Entry
+                            :entry="entry"
+                            :honeypot_field="form.honeypot_field"
+                            class="max-w-full md:h-full md:overflow-y-auto"
+                            @close="hideEntryPanel"
+                        />
+                    </TabPanel>
                 </TabPanels>
             </TabGroup>
             <!-- No entries -->
