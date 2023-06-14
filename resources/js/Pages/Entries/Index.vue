@@ -1,8 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import { displayDate, displayNumber, displayEntryContent, displayEntryTitle, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
 import { ArchiveBoxIcon, InboxArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
 import { router, Link } from '@inertiajs/vue3';
 import SimplePagination from '@/Components/Dashboard/SimplePagination.vue';
@@ -16,10 +17,12 @@ const props = defineProps({
     entries: Object,
 });
 
-const loadingSelectedEntry = ref(false);
-const selectedEntry = ref(null);
+const entryPanelShown = ref(false);
 
-const tabs = computed(() => {
+const tabs = ref(null);
+const panels = ref(null);
+
+const folders = computed(() => {
     return [
         {
             name: 'Inbox',
@@ -44,36 +47,28 @@ const tabs = computed(() => {
         },
     ];
 });
-const currentTab = computed(() => {
-    return tabs.value.find(tab => tab.current);
+const currentFolder = computed(() => {
+    return folders.value.find(tab => tab.current);
 });
 
-const selectEntry = (entry) => {
-    if (entry.uuid === selectedEntry.value?.uuid) {
-        return;
-    }
+const showEntryPanel = () => {
+    entryPanelShown.value = true;
 
-    loadingSelectedEntry.value = true;
-
-    axios
-        .get(route('entries.show', { entry }))
-        .then(response => {
-            selectedEntry.value = response.data.entry;
-            // TODO: Focus inside entry container
-        })
-        .catch(_error => {
-            router.reload();
-            selectedEntry.value = null;
-            // TODO: Focus outside entry container
-        })
-        .finally(() => {
-            loadingSelectedEntry.value = false;
-        });
+    nextTick().then(() => {
+        if (window.getComputedStyle(tabs.value.$el).getPropertyValue('display') === 'none') {
+            panels.value.$el.querySelector('[tabindex="0"]').focus();
+        }
+    });
 };
 
-const deselectEntry = () => {
-    selectedEntry.value = null;
-    // TODO: Focus outside entry container
+const hideEntryPanel = () => {
+    entryPanelShown.value = false;
+
+    nextTick().then(() => {
+        if (window.getComputedStyle(panels.value.$el).getPropertyValue('display') === 'none') {
+            tabs.value.$el.querySelector('[tabindex="0"]').focus();
+        }
+    });
 };
 </script>
 
@@ -99,18 +94,18 @@ const deselectEntry = () => {
                         class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                         @change="router.visit($event.target.value)"
                     >
-                        <option v-for="tab in tabs" :key="tab.name" :selected="tab.current" :value="tab.href">
-                            {{ tab.name }}
+                        <option v-for="folder in folders" :key="folder.name" :selected="folder.current" :value="folder.href">
+                            {{ folder.name }}
                         </option>
                     </select>
                 </div>
                 <div class="hidden md:block">
                     <nav class="isolate flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
                         <Link
-                            v-for="(tab, tabIdx) in tabs"
+                            v-for="(tab, tabIdx) in folders"
                             :key="tab.name"
                             :href="tab.href"
-                            :class="[tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700', tabIdx === 0 ? 'rounded-l-lg' : '', tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '', 'group relative inline-flex justify-center items-center min-w-0 flex-1 overflow-hidden bg-white py-3 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10']"
+                            :class="[tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700', tabIdx === 0 ? 'rounded-l-lg' : '', tabIdx === folders.length - 1 ? 'rounded-r-lg' : '', 'group relative inline-flex justify-center items-center min-w-0 flex-1 overflow-hidden bg-white py-3 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10']"
                             :aria-current="tab.current ? 'page' : undefined"
                         >
                             <component
@@ -130,71 +125,68 @@ const deselectEntry = () => {
 
             <SimplePagination v-if="entries.total > 0" :paginator="entries" />
         </div>
-        <div class="mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-[60vh]">
-            <!-- Entries -->
-            <div v-if="entries.total > 0" class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200">
-                <!-- Entry selection list -->
-                <ul
-                    class="z-10 overflow-hidden overflow-y-auto divide-y divide-gray-100 sm:flex-shrink-0 sm:rounded-xl md:w-96 md:rounded-r-none focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                    :class="{ 'hidden md:block': selectedEntry }"
+        <div
+            class="mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-[60vh]"
+            ref="entryContainer"
+            tabindex="-1"
+        >
+            <TabGroup
+                as="div"
+                v-if="entries.total > 0"
+                class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200"
+                @change="showEntryPanel"
+                manual
+                vertical
+            >
+                <TabList
+                    class="relative overflow-hidden overflow-y-auto divide-y divide-gray-100 sm:flex-shrink-0 sm:rounded-xl md:w-96 md:rounded-r-none"
+                    :class="{ 'hidden md:block': entryPanelShown }"
+                    ref="tabs"
                 >
-                    <li
+                    <Tab
+                        v-slot="{ selected }"
                         v-for="entry in entries.data"
                         :key="entry.uuid"
-                        class="sm:first:rounded-t-xl sm:last:rounded-b-xl sm:only:rounded-b-none md:first:rounded-tr-none md:last:rounded-br-none focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
-                        :class="{ 'bg-indigo-100': entry.uuid === selectedEntry?.uuid }"
+                        class="block w-full px-4 py-5 text-left sm:px-6 sm:first:rounded-t-xl sm:last:rounded-b-xl md:first:rounded-tr-none md:last:rounded-br-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 focus:outline-none"
+                        :class="{ 'bg-indigo-100': selected }"
+                        @click="showEntryPanel"
+                        @keydown.enter="showEntryPanel"
+                        @keydown.space="showEntryPanel"
                     >
-                        <button
-                            class="block w-full px-4 py-5 text-left sm:px-6 focus:outline-none"
-                            type="button"
-                            @click="selectEntry(entry)"
+                        <span class="flex items-baseline justify-between gap-x-4">
+                            <span class="text-sm font-semibold leading-6 text-gray-900">
+                                <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
+                            </span>
+                            <span class="flex-none text-xs text-gray-600">
+                                <time :datetime="entry.created_at">
+                                    {{ displayDate(entry.created_at) }}
+                                </time>
+                            </span>
+                        </span>
+                        <span
+                            v-if="displayEntryContent(entry)"
+                            class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
                         >
-                            <span class="flex items-baseline justify-between gap-x-4">
-                                <span class="text-sm font-semibold leading-6 text-gray-900">
-                                    <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
-                                </span>
-                                <span class="flex-none text-xs text-gray-600">
-                                    <time :datetime="entry.created_at">
-                                        {{ displayDate(entry.created_at) }}
-                                    </time>
-                                </span>
-                            </span>
-                            <span
-                                v-if="displayEntryContent(entry)"
-                                class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
-                            >
-                                {{ displayEntryContent(entry) }}
-                            </span>
-                        </button>
-                    </li>
-                </ul>
-                <div class="flex-1 overflow-hidden sm:rounded-xl md:rounded-l-none">
-                    <!-- Show selected entry -->
-                    <Entry
-                        v-if="selectedEntry"
-                        :entry="selectedEntry"
+                            {{ displayEntryContent(entry) }}
+                        </span>
+                    </Tab>
+                </TabList>
+                <TabPanels
+                    class="flex-1 overflow-hidden sm:rounded-xl md:rounded-l-none"
+                    :class="{ 'hidden md:block': !entryPanelShown }"
+                    ref="panels"
+                >
+                    <TabPanel
+                        :as="Entry"
+                        v-for="entry in entries.data"
+                        :key="entry.uuid"
+                        :entry="entry"
                         :honeypot_field="form.honeypot_field"
                         class="max-w-full md:h-full md:overflow-y-auto"
-                        @close="deselectEntry"
-                        @update="deselectEntry"
+                        @close="hideEntryPanel"
                     />
-                    <!-- No entry selected -->
-                    <div v-else class="hidden md:flex md:flex-col md:justify-center md:h-full md:px-6 md:py-5">
-                        <div class="text-center">
-                            <div class="inline-block mx-auto text-gray-400">
-                                <component :is="currentTab?.graphic" />
-                            </div>
-                            <h3 class="mt-2 text-base font-semibold text-gray-900">
-                                {{ tabs.find(tab => tab.current)?.name }}
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">
-                                You have {{ displayNumber(entries.total, 999_999) }}
-                                {{ entries.total === 1 ? 'entry' : 'entries' }} here.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </TabPanels>
+            </TabGroup>
             <!-- No entries -->
             <div v-else class="flex items-center h-full overflow-hidden px-4 py-5 sm:px-6 sm:rounded-xl">
                 <div class="mx-auto max-w-lg">
@@ -217,18 +209,18 @@ const deselectEntry = () => {
                             Nothing here yet
                         </h2>
                         <p class="mt-1 text-sm text-gray-500">
-                            <span v-if="currentTab?.name === 'Inbox'">
+                            <span v-if="currentFolder?.name === 'Inbox'">
                                 Add this form's
                                 <Link :href="route('forms.edit', { form })" class="font-medium underline text-gray-900">embed code</Link>
                                 to your website's HTML, and any new form entries you receive will show up here.
                             </span>
                             <span v-else>
-                                Any form entries you {{ currentTab?.name.toLocaleLowerCase() }} will show up here.
+                                Any form entries you {{ currentFolder?.name.toLocaleLowerCase() }} will show up here.
                             </span>
                         </p>
                     </div>
                     <CopyButton
-                        v-if="currentTab?.name === 'Inbox'"
+                        v-if="currentFolder?.name === 'Inbox'"
                         class="block mt-6 mx-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         :value="getFormEmbedCode(form)"
                     >
