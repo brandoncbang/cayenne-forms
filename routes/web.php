@@ -32,7 +32,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/forms/{form:uuid}', [FormController::class, 'destroy'])->name('forms.destroy');
 
     Route::get('/forms/{form:uuid}/entries', [EntryController::class, 'index'])->name('forms.entries.index');
-    Route::get('/entries/{entry:uuid}', [EntryController::class, 'show'])->name('entries.show');
     Route::patch('/entries/{entry:uuid}', [EntryController::class, 'update'])->name('entries.update');
     Route::delete('/entries/{entry:uuid}', [EntryController::class, 'destroy'])->name('entries.destroy');
 

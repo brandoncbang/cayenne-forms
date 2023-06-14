@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Entry;
 use App\Models\Form;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -57,16 +56,6 @@ class EntryController extends Controller
         }
 
         return redirect()->away($form->success_url);
-    }
-
-    /** @throws AuthorizationException */
-    public function show(Entry $entry): JsonResponse
-    {
-        $this->authorize('view', $entry);
-
-        return response()->json([
-            'entry' => $entry,
-        ]);
     }
 
     /** @throws AuthorizationException */
