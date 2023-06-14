@@ -140,7 +140,7 @@ const deselectEntry = () => {
                 >
                     <li
                         v-for="entry in entries.data"
-                        key="entry.uuid"
+                        :key="entry.uuid"
                         class="sm:first:rounded-t-xl sm:last:rounded-b-xl sm:only:rounded-b-none md:first:rounded-tr-none md:last:rounded-br-none focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
                         :class="{ 'bg-indigo-100': entry.uuid === selectedEntry?.uuid }"
                     >
