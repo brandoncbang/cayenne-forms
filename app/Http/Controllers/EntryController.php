@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEntryRequest;
 use App\Models\Entry;
 use App\Models\Form;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -32,21 +33,15 @@ class EntryController extends Controller
         ]);
     }
 
-    public function store(Request $request, Form $form): RedirectResponse
+    public function store(StoreEntryRequest $request, Form $form): RedirectResponse
     {
         abort_if($request->isJson(), Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
-
-        [$ipAddress, $userAgent] = [$request->ip(), $request->userAgent()];
-
-        if (config('cayenne.remove_sensitive_info', true)) {
-            [$ipAddress, $userAgent] = ['(Removed for privacy)', '(Removed for privacy)'];
-        }
 
         $entryIsSpam = ! is_null($form->honeypot_field) && $request->filled($form->honeypot_field);
 
         $form->entries()->create([
-            'ip_address' => $ipAddress,
-            'user_agent' => $userAgent,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
             'data' => $request->all(),
             'deleted_at' => $entryIsSpam ? now() : null,
         ]);
