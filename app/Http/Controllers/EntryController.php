@@ -20,8 +20,7 @@ class EntryController extends Controller
 
         $entries = $form
             ->entries()
-            ->when($request->query('filter') === 'archived', fn ($query) => $query->onlyArchived())
-            ->when($request->query('filter') === 'trashed', fn ($query) => $query->onlyTrashed())
+            ->filter($request->query('filter'))
             ->orderByDesc('id')
             ->paginate(20)
             ->onEachSide(2)
