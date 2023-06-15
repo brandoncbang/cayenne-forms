@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { computed, nextTick, ref } from 'vue';
-import { displayDate, displayNumber, displayEntryContent, displayEntryTitle, getFormEmbedCode } from '@/helpers.js';
+import { displayDate, displayNumber, getFormEmbedCode } from '@/helpers.js';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
 import { ArchiveBoxIcon, InboxArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/20/solid/index.js';
@@ -123,7 +123,7 @@ const hideEntryPanel = () => {
                 </div>
             </div>
 
-            <SimplePagination v-if="entries.total > 0" :paginator="entries" />
+            <SimplePagination v-if="entries.data.length > 0" :paginator="entries" />
         </div>
         <div
             class="mt-4 bg-white shadow-sm ring-1 ring-gray-900/5 sm:mt-2 sm:rounded-xl md:h-[60vh]"
@@ -132,7 +132,7 @@ const hideEntryPanel = () => {
         >
             <TabGroup
                 as="div"
-                v-if="entries.total > 0"
+                v-if="entries.data.length > 0"
                 class="h-full md:flex md:items-stretch md:divide-x md:divide-gray-200"
                 @change="showEntryPanel"
                 manual
@@ -158,7 +158,7 @@ const hideEntryPanel = () => {
                         >
                             <span class="flex items-baseline justify-between gap-x-4">
                                 <span class="text-sm font-semibold leading-6 text-gray-900">
-                                    <span class="sr-only">Show entry, </span>{{ displayEntryTitle(entry) }}
+                                    <span class="sr-only">Show entry, </span>{{ entry.title }}
                                 </span>
                                 <span class="flex-none text-xs text-gray-600">
                                     <time :datetime="entry.created_at">
@@ -167,10 +167,10 @@ const hideEntryPanel = () => {
                                 </span>
                             </span>
                                 <span
-                                    v-if="displayEntryContent(entry)"
+                                    v-if="entry.excerpt"
                                     class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
                                 >
-                                {{ displayEntryContent(entry) }}
+                                {{ entry.excerpt }}
                             </span>
                         </button>
                     </Tab>

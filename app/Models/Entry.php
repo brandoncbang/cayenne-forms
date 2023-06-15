@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Stringable;
 
 class Entry extends Model
 {
@@ -65,6 +66,37 @@ class Entry extends Model
     public function uniqueIds(): array
     {
         return ['uuid'];
+    }
+
+    /**
+     * Choose a field to use as a title.
+     */
+    public function getTitle(): string
+    {
+        $keys = collect($this->data)->keys()->mapInto(Stringable::class);
+
+        $candidates = collect([
+            ...$keys->filter->endsWith('email')->sortBy->length(),
+            ...$keys->filter->endsWith('subject')->sortBy->length(),
+            ...$keys->filter->endsWith('title')->sortBy->length(),
+        ])->map->toString();
+
+        return $this->data[$candidates->first()] ?? '(Untitled)';
+    }
+
+    /**
+     * Choose a field to use as an excerpt.
+     */
+    public function getExcerpt(): string|null
+    {
+        $keys = collect($this->data)->keys()->mapInto(Stringable::class);
+
+        $candidates = collect([
+            ...$keys->filter->endsWith('message')->sortBy->length(),
+            ...$keys->filter->endsWith('description')->sortBy->length(),
+        ])->map->toString();
+
+        return $this->data[$candidates->first()] ?? null;
     }
 
     public function form(): BelongsTo

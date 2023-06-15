@@ -1,5 +1,5 @@
 <script setup>
-import { displayDateTime, displayObjectKey, displayEntryTitle, entryFieldIsEmail } from '@/helpers.js';
+import { displayDateTime, displayObjectKey, entryFieldIsEmail } from '@/helpers.js';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import { ArchiveBoxIcon, ArrowLeftIcon, TrashIcon, XCircleIcon } from '@heroicons/vue/20/solid/index.js';
 import { InformationCircleIcon } from '@heroicons/vue/24/outline/index.js';
@@ -121,7 +121,7 @@ const destroy = () => {
 
             <div class="mt-6 lg:mt-0">
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    {{ displayEntryTitle(entry) }}
+                    {{ entry.title }}
                 </h2>
                 <div class="flex items-center mt-1 max-w-2xl">
                     <time

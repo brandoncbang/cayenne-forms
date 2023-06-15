@@ -17,34 +17,6 @@ export function displayObjectKey(key) {
         .join(' ');
 }
 
-export function displayEntryTitle(entry) {
-    let keys = Object.keys(entry.data).map(key => key.toLowerCase());
-
-    let candidates = [
-        ...keys.filter(key => key === 'email'),
-        ...keys.filter(key => key !== 'email' && key.endsWith('email')),
-        ...keys.filter(key => key === 'subject'),
-        ...keys.filter(key => key !== 'subject' && key.endsWith('subject')),
-        ...keys.filter(key => key === 'title'),
-        ...keys.filter(key => key !== 'title' && key.endsWith('title')),
-    ];
-
-    return entry.data[candidates[0]] ?? '(Untitled)';
-}
-
-export function displayEntryContent(entry) {
-    let keys = Object.keys(entry.data).map(key => key.toLowerCase());
-
-    let candidates = [
-        ...keys.filter(key => key === 'message'),
-        ...keys.filter(key => key !== 'message' && key.endsWith('message')),
-        ...keys.filter(key => key === 'description'),
-        ...keys.filter(key => key !== 'description' && key.endsWith('description')),
-    ];
-
-    return entry.data[candidates[0]] ?? null;
-}
-
 export function entryFieldIsEmail(key, value) {
     return key.toLowerCase().endsWith('email') && typeof value === 'string' && value.includes('@');
 }
