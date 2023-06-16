@@ -6,7 +6,7 @@ use App\Models\Entry;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class GetTitleTest extends TestCase
+class TitleTest extends TestCase
 {
     #[Test]
     public function it_chooses_a_field_to_use_as_a_title()
@@ -19,7 +19,7 @@ class GetTitleTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('johndoe@example.com', $entry->getTitle());
+        $this->assertEquals('johndoe@example.com', $entry->title);
     }
 
     #[Test]
@@ -32,7 +32,7 @@ class GetTitleTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('johndoe@example.com', $entry->getTitle());
+        $this->assertEquals('johndoe@example.com', $entry->title);
     }
 
     #[Test]
@@ -45,7 +45,7 @@ class GetTitleTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Hello, World!', $entry->getTitle());
+        $this->assertEquals('Hello, World!', $entry->title);
     }
 
     #[Test]
@@ -58,7 +58,7 @@ class GetTitleTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Hello, World!', $entry->getTitle());
+        $this->assertEquals('Hello, World!', $entry->title);
     }
 
     #[Test]
@@ -71,7 +71,7 @@ class GetTitleTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Hello, World!', $entry->getTitle());
+        $this->assertEquals('Hello, World!', $entry->title);
     }
 
     #[Test]
@@ -84,7 +84,7 @@ class GetTitleTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Hello, World!', $entry->getTitle());
+        $this->assertEquals('Hello, World!', $entry->title);
     }
 
     #[Test]
@@ -97,6 +97,6 @@ class GetTitleTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('(Untitled)', $entry->getTitle());
+        $this->assertEquals('(Untitled)', $entry->title);
     }
 }

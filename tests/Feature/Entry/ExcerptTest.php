@@ -6,7 +6,7 @@ use App\Models\Entry;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class GetExcerptTest extends TestCase
+class ExcerptTest extends TestCase
 {
     #[Test]
     public function it_chooses_a_field_to_use_as_an_excerpt()
@@ -18,7 +18,7 @@ class GetExcerptTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->getExcerpt());
+        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->excerpt);
     }
 
     #[Test]
@@ -31,7 +31,7 @@ class GetExcerptTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->getExcerpt());
+        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->excerpt);
     }
 
     #[Test]
@@ -44,7 +44,7 @@ class GetExcerptTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->getExcerpt());
+        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->excerpt);
     }
 
     #[Test]
@@ -57,7 +57,7 @@ class GetExcerptTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->getExcerpt());
+        $this->assertEquals('Lorem ipsum dolor sit amet.', $entry->excerpt);
     }
 
     #[Test]
@@ -70,6 +70,6 @@ class GetExcerptTest extends TestCase
             ],
         ]);
 
-        $this->assertNull($entry->getExcerpt());
+        $this->assertNull($entry->excerpt);
     }
 }

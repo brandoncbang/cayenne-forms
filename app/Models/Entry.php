@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Archives;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,13 @@ class Entry extends Model
     protected $casts = [
         'data' => 'array',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['title', 'excerpt'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -68,37 +76,6 @@ class Entry extends Model
         return ['uuid'];
     }
 
-    /**
-     * Choose a field to use as a title.
-     */
-    public function getTitle(): string
-    {
-        $keys = collect($this->data)->keys()->mapInto(Stringable::class);
-
-        $candidates = collect([
-            ...$keys->filter(fn ($key) => $key->lower()->endsWith('email'))->sortBy->length(),
-            ...$keys->filter(fn ($key) => $key->lower()->endsWith('subject'))->sortBy->length(),
-            ...$keys->filter(fn ($key) => $key->lower()->endsWith('title'))->sortBy->length(),
-        ])->map->toString();
-
-        return $this->data[$candidates->first()] ?? '(Untitled)';
-    }
-
-    /**
-     * Choose a field to use as an excerpt.
-     */
-    public function getExcerpt(): string|null
-    {
-        $keys = collect($this->data)->keys()->mapInto(Stringable::class);
-
-        $candidates = collect([
-            ...$keys->filter(fn ($key) => $key->lower()->endsWith('message'))->sortBy->length(),
-            ...$keys->filter(fn ($key) => $key->lower()->endsWith('description'))->sortBy->length(),
-        ])->map->toString();
-
-        return $this->data[$candidates->first()] ?? null;
-    }
-
     public function form(): BelongsTo
     {
         return $this->belongsTo(Form::class);
@@ -109,5 +86,44 @@ class Entry extends Model
         $query
             ->when($filter === 'archived', fn ($query) => $query->onlyArchived())
             ->when($filter === 'trashed', fn ($query) => $query->onlyTrashed());
+    }
+
+    /**
+     * Choose a field to use as a title.
+     */
+    protected function title(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $keys = collect($this->data)->keys()->mapInto(Stringable::class);
+
+                $candidates = collect([
+                    ...$keys->filter(fn ($key) => $key->lower()->endsWith('email'))->sortBy->length(),
+                    ...$keys->filter(fn ($key) => $key->lower()->endsWith('subject'))->sortBy->length(),
+                    ...$keys->filter(fn ($key) => $key->lower()->endsWith('title'))->sortBy->length(),
+                ])->map->toString();
+
+                return $this->data[$candidates->first()] ?? '(Untitled)';
+            },
+        );
+    }
+
+    /**
+     * Choose a field to use as an excerpt.
+     */
+    protected function excerpt(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $keys = collect($this->data)->keys()->mapInto(Stringable::class);
+
+                $candidates = collect([
+                    ...$keys->filter(fn ($key) => $key->lower()->endsWith('message'))->sortBy->length(),
+                    ...$keys->filter(fn ($key) => $key->lower()->endsWith('description'))->sortBy->length(),
+                ])->map->toString();
+
+                return $this->data[$candidates->first()] ?? null;
+            }
+        );
     }
 }

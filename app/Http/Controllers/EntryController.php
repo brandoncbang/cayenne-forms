@@ -23,18 +23,7 @@ class EntryController extends Controller
             ->filter($request->query('filter'))
             ->orderByDesc('id')
             ->simplePaginate(20)
-            ->withQueryString()
-            ->through(fn (Entry $entry) => [
-                'uuid' => $entry->uuid,
-                'ip_address' => $entry->ip_address,
-                'user_agent' => $entry->user_agent,
-                'data' => $entry->data,
-                'title' => $entry->getTitle(),
-                'excerpt' => $entry->getExcerpt(),
-                'created_at' => $entry->created_at,
-                'archived_at' => $entry->archived_at,
-                'deleted_at' => $entry->deleted_at,
-            ]);
+            ->withQueryString();
 
         return inertia('Entries/Index', [
             'form' => $form,
