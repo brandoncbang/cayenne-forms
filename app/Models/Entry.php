@@ -76,9 +76,9 @@ class Entry extends Model
         $keys = collect($this->data)->keys()->mapInto(Stringable::class);
 
         $candidates = collect([
-            ...$keys->filter->endsWith('email')->sortBy->length(),
-            ...$keys->filter->endsWith('subject')->sortBy->length(),
-            ...$keys->filter->endsWith('title')->sortBy->length(),
+            ...$keys->filter(fn ($key) => $key->lower()->endsWith('email'))->sortBy->length(),
+            ...$keys->filter(fn ($key) => $key->lower()->endsWith('subject'))->sortBy->length(),
+            ...$keys->filter(fn ($key) => $key->lower()->endsWith('title'))->sortBy->length(),
         ])->map->toString();
 
         return $this->data[$candidates->first()] ?? '(Untitled)';
@@ -92,8 +92,8 @@ class Entry extends Model
         $keys = collect($this->data)->keys()->mapInto(Stringable::class);
 
         $candidates = collect([
-            ...$keys->filter->endsWith('message')->sortBy->length(),
-            ...$keys->filter->endsWith('description')->sortBy->length(),
+            ...$keys->filter(fn ($key) => $key->lower()->endsWith('message'))->sortBy->length(),
+            ...$keys->filter(fn ($key) => $key->lower()->endsWith('description'))->sortBy->length(),
         ])->map->toString();
 
         return $this->data[$candidates->first()] ?? null;
