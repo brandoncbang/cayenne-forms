@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Stringable;
 
 class Entry extends Model
@@ -104,7 +104,7 @@ class Entry extends Model
         return $this->belongsTo(Form::class);
     }
 
-    public function scopeFilter(Builder $query, string $filter): void
+    public function scopeFilter(Builder $query, string|null $filter): void
     {
         $query
             ->when($filter === 'archived', fn ($query) => $query->onlyArchived())
