@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Mail\NewEntryEmail;
 use App\Models\Entry;
 use App\Models\Form;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -17,6 +19,8 @@ class ReceiveEntryTest extends TestCase
     #[Test]
     public function form_can_receive_an_entry()
     {
+        Mail::fake();
+
         $form = Form::factory()->create();
 
         $response = $this
@@ -52,6 +56,11 @@ class ReceiveEntryTest extends TestCase
             $entry->data,
         );
         $this->assertTrue($entry->form->is($form));
+
+        Mail::assertSent(NewEntryEmail::class, function ($mail) use ($form, $entry) {
+            return $mail->hasTo($form->user->email)
+                && $mail->entry->is($entry);
+        });
     }
 
     #[Test]
@@ -176,5 +185,29 @@ class ReceiveEntryTest extends TestCase
 
         $entry = Entry::first();
         $this->assertNull($entry->deleted_at);
+    }
+
+    #[Test]
+    public function new_entry_notification_is_not_sent_if_disabled()
+    {
+        Mail::fake();
+
+        $form = Form::factory()->create([
+            'sends_notifications' => false,
+        ]);
+
+        $this
+            ->withServerVariables([
+                'REMOTE_ADDR' => '76.163.245.123',
+                'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_6_8 rv:4.0; sl-SI) AppleWebKit/532.33.2 (KHTML, like Gecko) Version/4.0.5 Safari/532.33.2',
+            ])
+            ->post("/f/{$form->uuid}", [
+                'name' => 'John Doe',
+                'email' => 'johndoe@example.com',
+                'phone' => '(123) 456-7890',
+                'message' => 'Lorem ipsum dolor sit amet.',
+            ]);
+
+        Mail::assertNotSent(NewEntryEmail::class);
     }
 }

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEntryRequest;
+use App\Mail\NewEntryEmail;
 use App\Models\Entry;
 use App\Models\Form;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Response as InertiaResponse;
 
 class EntryController extends Controller
@@ -37,12 +39,17 @@ class EntryController extends Controller
 
         $entryIsSpam = ! is_null($form->honeypot_field) && $request->filled($form->honeypot_field);
 
-        $form->entries()->create([
+        /** @var Entry $entry */
+        $entry = $form->entries()->create([
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
             'data' => $request->all(),
             'deleted_at' => $entryIsSpam ? now() : null,
         ]);
+
+        if ($form->sends_notifications) {
+            Mail::to($form->user)->send(new NewEntryEmail($entry));
+        }
 
         if (is_null($form->success_url)) {
             return redirect()->route('entries.success');
