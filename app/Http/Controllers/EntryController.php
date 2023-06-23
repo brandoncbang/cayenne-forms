@@ -24,7 +24,7 @@ class EntryController extends Controller
             ->entries()
             ->filter($request->query('filter'))
             ->orderByDesc('id')
-            ->simplePaginate(20)
+            ->paginate(20)
             ->withQueryString();
 
         return inertia('Entries/Index', [
