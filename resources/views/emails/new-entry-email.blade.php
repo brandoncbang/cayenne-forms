@@ -3,7 +3,7 @@
 
 <x-mail::panel>
 @foreach($entry->data as $key => $value)
-**{{ escapeMarkdown(Str::headline($key)) }}:**  
+**{{ escapeMarkdown(Str::headline($key)) }}:**\
 {{ escapeMarkdown($value) }}
 
 @endforeach
