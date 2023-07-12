@@ -14,7 +14,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['close', 'update']);
+const emit = defineEmits(['close']);
 
 const entryData = computed(() => {
     return Object.fromEntries(
@@ -25,15 +25,15 @@ const entryData = computed(() => {
 
 const entryIsArchived = computed(() => {
     return props.entry.archived_at !== null;
-})
+});
 const entryIsTrashed = computed(() => {
     return props.entry.deleted_at !== null;
-})
+});
 
 const updateEntry = (data) => {
-    router.patch(route('entries.update', { entry: props.entry }), data, {
-        onSuccess: () => emit('update'),
-    });
+    emit('close')
+
+    router.patch(route('entries.update', { entry: props.entry }), data, { preserveState: true });
 };
 
 const archive = () => {
@@ -73,7 +73,9 @@ const destroy = () => {
         return;
     }
 
-    router.delete(route('entries.destroy', { entry: props.entry }), { preserveState: false });
+    emit('close');
+
+    router.delete(route('entries.destroy', { entry: props.entry }), { preserveState: true });
 }
 </script>
 
@@ -142,7 +144,8 @@ const destroy = () => {
                             leave-from-class="transform opacity-100 scale-100"
                             leave-to-class="transform opacity-0 scale-95"
                         >
-                            <PopoverPanel class="absolute left-0 ml-4 z-10 mt-2 px-4 py-3 w-56 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 sm:origin-top-left sm:ml-0">
+                            <!-- TODO: Fix when desktop layout is narrow. -->
+                            <PopoverPanel class="absolute left-0 ml-4 z-10 mt-2 px-4 py-3 w-56 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 md:origin-top-left md:ml-0">
                                 <dl class="space-y-2">
                                     <div>
                                         <dt class="text-xs font-medium leading-5 text-gray-700">
