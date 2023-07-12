@@ -1,9 +1,9 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import CardsForm from '@/Components/Dashboard/CardsForm.vue';
+import CardsFormSection from '@/Components/Dashboard/CardsFormSection.vue';
+import PrimaryButton from '@/Components/Dashboard/PrimaryButton.vue';
+import TextField from '@/Components/Dashboard/TextField.vue';
 
 defineProps({
     mustVerifyEmail: {
@@ -23,46 +23,32 @@ const form = useForm({
 </script>
 
 <template>
-    <section>
-        <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Profile Information</h2>
+    <CardsForm @submit.prevent="form.patch(route('profile.update'))">
+        <CardsFormSection title="Profile Information">
+            <template #description>
+                <p>
+                    Update your account's profile information and email address.
+                </p>
+            </template>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Update your account's profile information and email address.
-            </p>
-        </header>
+            <TextField
+                v-model="form.name"
+                id="name"
+                label="Name"
+                :error="form.errors.name"
+                autocomplete="name"
+                required
+            />
 
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
-            <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
-
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            <TextField
+                v-model="form.email"
+                id="email"
+                type="email"
+                label="Email address"
+                :error="form.errors.email"
+                autocomplete="name"
+                required
+            />
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
@@ -85,13 +71,15 @@ const form = useForm({
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
+            <template #actions>
                 <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
                     <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Saved.</p>
                 </Transition>
-            </div>
-        </form>
-    </section>
+
+                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Save
+                </PrimaryButton>
+            </template>
+        </CardsFormSection>
+    </CardsForm>
 </template>
