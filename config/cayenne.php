@@ -2,7 +2,7 @@
 
 return [
 
-    'repo_url' => 'https://github.com/brandoncbang/cayenne_forms',
+    'repo_url' => 'https://github.com/brandoncbang/cayenne-forms',
 
     /*
     |--------------------------------------------------------------------------
