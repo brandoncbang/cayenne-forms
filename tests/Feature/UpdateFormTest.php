@@ -37,7 +37,7 @@ class UpdateFormTest extends TestCase
 
         $response = $this->get("/forms/{$form->uuid}/edit");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/');
     }
 
     #[Test]
@@ -104,7 +104,7 @@ class UpdateFormTest extends TestCase
 
         $form->refresh();
 
-        $response->assertRedirect('login');
+        $response->assertRedirect('/');
 
         $this->assertEquals('Contact Us Page', $form->name);
         $this->assertFalse($form->sends_notifications);

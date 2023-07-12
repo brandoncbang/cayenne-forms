@@ -30,7 +30,7 @@ class CreateFormTest extends TestCase
     {
         $response = $this->get('/forms/create');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/');
     }
 
     #[Test]
@@ -70,7 +70,7 @@ class CreateFormTest extends TestCase
             'honeypot_field' => 'url',
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/');
     }
 
     #[Test]

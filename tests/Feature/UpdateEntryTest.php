@@ -52,7 +52,7 @@ class UpdateEntryTest extends TestCase
             'archived_at' => now(),
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/');
 
         $entry->refresh();
         $this->assertNull($entry->archived_at);

@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\Invite;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use PHPUnit\Framework\Attributes\Test;
@@ -29,7 +30,7 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect('/');
+        $response->assertRedirect(RouteServiceProvider::HOME);
 
         $invite->refresh();
 

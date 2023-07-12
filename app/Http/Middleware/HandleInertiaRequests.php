@@ -40,11 +40,6 @@ class HandleInertiaRequests extends Middleware
             ],
             'navigation' => [
                 [
-                    'name' => __('Dashboard'),
-                    'href' => route('dashboard'),
-                    'current' => $request->route()->named('dashboard'),
-                ],
-                [
                     'name' => __('Forms'),
                     'href' => route('forms.index'),
                     'current' => $request->route()->named('forms.*'),

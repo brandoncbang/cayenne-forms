@@ -35,7 +35,7 @@ class ListEntriesTest extends TestCase
 
         $response = $this->get("/forms/{$form->uuid}/entries");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/');
     }
 
     #[Test]

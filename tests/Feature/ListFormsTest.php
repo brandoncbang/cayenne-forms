@@ -28,6 +28,6 @@ class ListFormsTest extends TestCase
     {
         $response = $this->get('/forms');
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/');
     }
 }

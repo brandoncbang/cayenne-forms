@@ -39,7 +39,7 @@ class DeleteEntryTest extends TestCase
 
         $response = $this->delete("/entries/{$entry->uuid}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/');
 
         $this->assertDatabaseCount(Entry::class, 1);
     }
