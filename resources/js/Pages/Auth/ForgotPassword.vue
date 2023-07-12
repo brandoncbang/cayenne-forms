@@ -5,7 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { InformationCircleIcon } from '@heroicons/vue/20/solid/index.js';
+import { CheckCircleIcon } from '@heroicons/vue/20/solid/index.js';
 import TextField from '@/Components/Dashboard/TextField.vue';
 
 defineProps({
@@ -28,7 +28,7 @@ const submit = () => {
         <div v-if="status" class="rounded-md bg-green-50 p-4 mb-10">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <InformationCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
+                    <CheckCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
                 </div>
                 <div class="ml-3 flex-1">
                     <p class="text-sm text-green-700">{{ status }}</p>
