@@ -125,13 +125,13 @@ const destroy = () => {
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ entry.title }}
                 </h2>
-                <div class="flex items-center mt-1 max-w-2xl">
+                <div class="relative flex items-center mt-1 max-w-2xl">
                     <time
                         :datetime="entry.created_at" class="text-sm font-medium leading-6 text-gray-500"
                     >
                         {{ displayDateTime(entry.created_at) }}
                     </time>
-                    <Popover class="sm:relative ml-2">
+                    <Popover class="lg:relative ml-2">
                         <PopoverButton class="block -mt-0.5" title="Show advanced info">
                             <span class="sr-only">Show advanced info</span>
                             <InformationCircleIcon class="h-5 w-5 text-gray-700" aria-hidden="true" />
@@ -144,8 +144,7 @@ const destroy = () => {
                             leave-from-class="transform opacity-100 scale-100"
                             leave-to-class="transform opacity-0 scale-95"
                         >
-                            <!-- TODO: Fix when desktop layout is narrow. -->
-                            <PopoverPanel class="absolute left-0 ml-4 z-10 mt-2 px-4 py-3 w-56 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 md:origin-top-left md:ml-0">
+                            <PopoverPanel class="absolute left-0 z-10 mt-2 px-4 py-3 w-56 origin-top rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 md:origin-top-left">
                                 <dl class="space-y-2">
                                     <div>
                                         <dt class="text-xs font-medium leading-5 text-gray-700">
