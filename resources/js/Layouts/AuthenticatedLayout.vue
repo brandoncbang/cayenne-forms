@@ -128,7 +128,7 @@ const slots = useSlots();
             </DisclosurePanel>
         </Disclosure>
 
-        <div class="flex-1 flex flex-col items-stretch min-h-0 py-10">
+        <div class="flex-1 flex flex-col items-stretch min-h-0 pt-10 pb-6">
             <header class="flex-shrink-0">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
                     <div class="min-w-0 flex-1">
@@ -147,7 +147,7 @@ const slots = useSlots();
                 </div>
             </main>
             <footer class="flex-shrink-0">
-                <div class="mx-auto max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
+                <div class="mx-auto max-w-3xl pt-6 sm:px-6 lg:max-w-7xl lg:px-8">
                     <div class="text-center text-sm text-gray-500">
                         <p>
                             Powered by
