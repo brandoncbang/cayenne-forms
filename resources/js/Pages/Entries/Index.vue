@@ -53,22 +53,10 @@ const currentFolder = computed(() => {
 
 const showEntryPanel = () => {
     entryPanelShown.value = true;
-
-    nextTick().then(() => {
-        if (window.getComputedStyle(tabs.value.$el).getPropertyValue('display') === 'none') {
-            panels.value.$el.querySelector('[tabindex="0"]').focus();
-        }
-    });
 };
 
 const hideEntryPanel = () => {
     entryPanelShown.value = false;
-
-    nextTick().then(() => {
-        if (window.getComputedStyle(panels.value.$el).getPropertyValue('display') === 'none') {
-            tabs.value.$el.querySelector('[tabindex="0"]').focus();
-        }
-    });
 };
 </script>
 
