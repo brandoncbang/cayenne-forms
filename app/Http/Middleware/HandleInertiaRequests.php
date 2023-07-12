@@ -33,6 +33,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'app' => [
                 'name' => config('app.name'),
+                'repoUrl' => config('cayenne.repo_url'),
             ],
             'auth' => [
                 'user' => $request->user(),

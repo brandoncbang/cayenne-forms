@@ -146,6 +146,23 @@ const slots = useSlots();
                     <slot />
                 </div>
             </main>
+            <footer class="flex-shrink-0">
+                <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                    <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500">
+                        <p>
+                            Powered by
+                        </p>
+                        <p class="mt-2">
+                            <a :href="$page.props.app.repoUrl" class="inline-flex items-center">
+                                <ApplicationLogo class="inline h-8 w-8" aria-hidden="true" />
+                                <span class="ml-2 text-2xl font-logo font-bold text-gray-900">
+                                    {{ $page.props.app.name }}
+                                </span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 </template>
