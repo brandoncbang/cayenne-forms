@@ -24,6 +24,10 @@ const form = useForm({
 const submit = () => {
     form.patch(route('forms.update', { form: props.form }));
 };
+
+const confirmDeletion = () => {
+    return confirm('Are you sure you want to permanently delete this form and all its entries?');
+}
 </script>
 
 <template>
@@ -132,6 +136,31 @@ const submit = () => {
                     </PrimaryButton>
                 </template>
             </CardsFormSection>
+
+            <div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
+                <div class="px-4 sm:px-0">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Delete Form</h2>
+                    <div class="mt-1 text-sm leading-6 text-gray-600">
+                        <p>
+                            This will permanently delete this form and all of its entries.
+                            <strong class="text-gray-900">Proceed with caution!</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2">
+                    <Link
+                        as="button"
+                        :href="route('forms.destroy', { form: props.form })"
+                        method="DELETE"
+                        class="inline-flex items-center justify-center rounded-md bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
+                        type="button"
+                        :onBefore="confirmDeletion"
+                    >
+                        Delete this form
+                    </Link>
+                </div>
+            </div>
         </CardsForm>
     </AuthenticatedLayout>
 </template>

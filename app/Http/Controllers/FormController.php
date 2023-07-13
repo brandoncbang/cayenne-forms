@@ -81,8 +81,13 @@ class FormController extends Controller
         return redirect()->route('forms.entries.index', ['form' => $form]);
     }
 
-    public function destroy(Form $form)
+    /** @throws AuthorizationException */
+    public function destroy(Form $form): RedirectResponse
     {
-        //
+        $this->authorize('delete', $form);
+
+        $form->delete();
+
+        return redirect()->route('forms.index');
     }
 }
