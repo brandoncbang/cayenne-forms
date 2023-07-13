@@ -141,7 +141,7 @@ const confirmDeletion = () => {
                     </div>
                 </div>
 
-                <div class="md:col-span-2">
+                <div class="px-4 sm:px-0 md:col-span-2">
                     <Link
                         as="button"
                         :href="route('forms.destroy', { form: props.form })"
