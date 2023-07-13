@@ -8,7 +8,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import CopyButton from '@/Components/Dashboard/CopyButton.vue';
 import { getFormEmbedCode } from '@/helpers.js';
-import { PlusSmallIcon } from '@heroicons/vue/20/solid/index.js';
 
 const props = defineProps({
     form: Object,
@@ -104,9 +103,6 @@ const confirmDeletion = () => {
                 />
 
                 <template #actions>
-                    <Link :href="route('forms.index')" class="text-sm font-semibold leading-6 text-gray-900">
-                        Cancel
-                    </Link>
                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Save
                     </PrimaryButton>
@@ -128,9 +124,6 @@ const confirmDeletion = () => {
                 />
 
                 <template #actions>
-                    <Link :href="route('forms.index')" class="text-sm font-semibold leading-6 text-gray-900">
-                        Cancel
-                    </Link>
                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Save
                     </PrimaryButton>
