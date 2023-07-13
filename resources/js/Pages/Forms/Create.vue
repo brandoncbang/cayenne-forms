@@ -58,9 +58,6 @@ const submit = () => {
                 />
 
                 <template #actions>
-                    <Link :href="route('forms.index')" class="text-sm font-semibold leading-6 text-gray-900">
-                        Cancel
-                    </Link>
                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Save
                     </PrimaryButton>
@@ -82,9 +79,6 @@ const submit = () => {
                 />
 
                 <template #actions>
-                    <Link :href="route('forms.index')" class="text-sm font-semibold leading-6 text-gray-900">
-                        Cancel
-                    </Link>
                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Save
                     </PrimaryButton>
