@@ -24,18 +24,20 @@ defineProps({
             </div>
         </main>
 
-        <footer class="mt-16 text-center text-sm text-gray-500">
-            <p>
-                Powered by
-            </p>
-            <p class="mt-2">
-                <a :href="$page.props.app.repoUrl" class="inline-flex items-center">
-                    <ApplicationLogo class="inline h-8 w-8" aria-hidden="true" />
-                    <span class="ml-2 text-2xl font-logo font-bold text-gray-900">
-                        {{ $page.props.app.name }}
-                    </span>
-                </a>
-            </p>
+        <footer class="mt-8 sm:mx-auto sm:w-full sm:max-w-[480px] sm:px-6 lg:px-8">
+            <div class="pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+                <p>
+                    Powered by
+                </p>
+                <p class="mt-2">
+                    <a :href="$page.props.app.repoUrl" class="inline-flex items-center">
+                        <ApplicationLogo class="inline h-8 w-8" aria-hidden="true" />
+                        <span class="ml-2 text-2xl font-logo font-bold text-gray-900">
+                            {{ $page.props.app.name }}
+                        </span>
+                    </a>
+                </p>
+            </div>
         </footer>
     </div>
 </template>
