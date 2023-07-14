@@ -139,7 +139,7 @@ const hideEntryPanel = () => {
                     >
                         <button
                             class="group block p-1 w-full text-left focus:outline-none"
-                            :class="{ 'bg-indigo-100': selected }"
+                            :class="{ 'md:bg-indigo-100': selected }"
                             @click="showEntryPanel"
                             @keydown.enter="showEntryPanel"
                             @keydown.space="showEntryPanel"
