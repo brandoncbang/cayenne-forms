@@ -17,9 +17,10 @@ class FormController extends Controller
         $forms = $request
             ->user()
             ->forms()
+            ->withCount(['entries'])
             ->with(['latest_entry'])
             ->orderBy('id', 'desc')
-            ->paginate(8)
+            ->paginate(6)
             ->onEachSide(2);
 
         return inertia('Forms/Index', [

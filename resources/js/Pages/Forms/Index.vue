@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/vue3';
 import { EllipsisVerticalIcon, PlusIcon, PlusSmallIcon } from '@heroicons/vue/20/solid';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Pagination from '@/Components/Dashboard/Pagination.vue';
-import { displayDateTime } from '@/helpers.js';
+import { displayDateTime, displayNumber } from '@/helpers.js';
 
 const props = defineProps({
     'forms': Object,
@@ -26,85 +26,46 @@ const props = defineProps({
 
         <div
             v-if="forms.data.length > 0"
-            class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl"
+            class="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl"
         >
-            <ul
-                role="list"
-                class="divide-y divide-gray-100"
-            >
+            <ul role="list" class="divide-y divide-gray-100">
                 <li
                     v-for="form in forms.data"
                     :key="form.uuid"
-                    class="flex items-center justify-between gap-x-6 px-4 py-5 sm:px-6"
+                    class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6 lg:px-8"
                 >
                     <div class="min-w-0">
-                        <div class="flex items-start gap-x-3">
-                            <h2 class="text-sm font-semibold leading-6 text-gray-900">
+                        <p class="text-sm font-semibold leading-6 text-gray-900">
+                            <a :href="route('forms.entries.index', { form })">
+                                <span class="absolute inset-x-0 -top-px bottom-0"></span>
                                 {{ form.name }}
-                            </h2>
-                        </div>
-                        <div
-                            v-if="form.latest_entry"
-                            class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500"
-                        >
-                            <p class="whitespace-nowrap">
-                                Last entry at <time :datetime="form.latest_entry.created_at">{{ displayDateTime(form.latest_entry.created_at) }}</time>
+                            </a>
+                        </p>
+                        <p class="mt-1 flex text-xs leading-5 text-gray-500">
+                            <span class="relative truncate hover:underline">
+                                {{ route('forms.entries.store', { form }) }}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-x-4">
+                        <div v-if="form.entries_count > 0" class="hidden sm:flex sm:flex-col sm:items-end">
+                            <p class="text-sm leading-6 text-gray-900">
+                                {{ displayNumber(form.entries_count) }} {{ form.entries_count > 1 ? 'Entries' : 'Entry' }}
+                            </p>
+                            <p class="mt-1 text-xs leading-5 text-gray-500">
+                                Last entry at
+                                <time datetime="2023-01-23T13:23Z">
+                                    {{ displayDateTime(form.latest_entry.created_at) }}
+                                </time>
                             </p>
                         </div>
-                    </div>
-                    <div class="flex flex-none items-center gap-x-4">
-                        <Link
-                            :href="route('forms.entries.index', { form })"
-                            class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-                        >
-                            View<span class="sr-only">, {{ form.name }}'s</span> entries
-                        </Link>
-                        <Menu as="div" class="relative flex-none">
-                            <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                                <span class="sr-only">Open options</span>
-                                <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
-                            </MenuButton>
-                            <transition
-                                enter-active-class="transition ease-out duration-100"
-                                enter-from-class="transform opacity-0 scale-95"
-                                enter-to-class="transform opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95"
-                            >
-                                <MenuItems
-                                    class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
-                                >
-                                    <MenuItem v-slot="{ active }" class="sm:hidden">
-                                        <Link
-                                            :href="route('forms.entries.index', { form })"
-                                            :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']"
-                                        >
-                                            View<span class="sr-only">, {{ form.name }}'s</span> entries
-                                        </Link>
-                                    </MenuItem>
-                                    <MenuItem v-slot="{ active }">
-                                        <Link
-                                            :href="route('forms.edit', { form })"
-                                            :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']"
-                                        >
-                                            Edit<span class="sr-only">, {{ form.name }}</span>
-                                        </Link>
-                                    </MenuItem>
-                                    <MenuItem v-slot="{ active }">
-                                        <Link
-                                            href="#"
-                                            :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']"
-                                        >
-                                            Delete<span class="sr-only">, {{ form.name }}</span>
-                                        </Link>
-                                    </MenuItem>
-                                </MenuItems>
-                            </transition>
-                        </Menu>
+                        <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                        </svg>
                     </div>
                 </li>
             </ul>
+
             <Pagination :paginator="forms" class="px-4 py-5 border-t border-gray-200 sm:px-6" />
         </div>
         <div v-else class="px-4 py-5 text-center sm:px-6">
