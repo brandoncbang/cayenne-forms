@@ -66,7 +66,7 @@ const props = defineProps({
                 </li>
             </ul>
 
-            <Pagination :paginator="forms" class="px-4 py-5 border-t border-gray-200 sm:px-6" />
+            <Pagination :paginator="forms" class="px-4 py-5 border-t border-gray-200 sm:px-6 lg:px-8" />
         </div>
         <div v-else class="px-4 py-5 text-center sm:px-6">
             <svg
