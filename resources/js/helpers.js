@@ -1,4 +1,4 @@
-export function displayNumber(n, cutoff = 9999) {
+export function displayNumber(n, cutoff = Infinity) {
     return n > cutoff ? `${cutoff.toLocaleString()}+` : n.toLocaleString();
 }
 

@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import {
-    displayEntryContent,
-    displayEntryTitle,
     displayNumber,
     displayObjectKey,
     entryFieldIsEmail,
@@ -18,6 +16,10 @@ describe('display number', () => {
 
     it('should display a maximum value after a cutoff point', () => {
         expect(displayNumber(1_000, 999)).toBe('999+');
+    });
+
+    it('should display without a cutoff by default', () => {
+        expect(displayNumber(10_000)).toBe('10,000');
     });
 });
 
