@@ -133,32 +133,34 @@ const hideEntryPanel = () => {
                 >
                     <Tab
                         as="template"
-                        v-slot="{ selected }"
                         v-for="entry in entries.data"
                         :key="entry.uuid"
+                        v-slot="{ selected }"
                     >
                         <button
-                            class="block w-full px-4 py-5 text-left sm:px-6 sm:first:rounded-t-xl sm:last:rounded-b-xl md:first:rounded-tr-none md:last:rounded-br-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 focus:outline-none"
+                            class="group block p-1 w-full text-left focus:outline-none"
                             :class="{ 'bg-indigo-100': selected }"
                             @click="showEntryPanel"
                             @keydown.enter="showEntryPanel"
                             @keydown.space="showEntryPanel"
                         >
-                            <span class="flex items-baseline justify-between gap-x-4">
-                                <span class="text-sm font-semibold leading-6 text-gray-900">
-                                    <span class="sr-only">Show entry, </span>{{ entry.title }}
+                            <span class="block px-2 py-4 rounded-xl sm:px-5 group-focus:ring-2 group-focus:ring-inset group-focus:ring-indigo-500">
+                                <span class="flex items-baseline justify-between gap-x-4">
+                                    <span class="text-sm font-semibold leading-6 text-gray-900">
+                                        <span class="sr-only">Show entry, </span>{{ entry.title }}
+                                    </span>
+                                    <span class="flex-none text-xs text-gray-600">
+                                        <time :datetime="entry.created_at">
+                                            {{ displayDate(entry.created_at) }}
+                                        </time>
+                                    </span>
                                 </span>
-                                <span class="flex-none text-xs text-gray-600">
-                                    <time :datetime="entry.created_at">
-                                        {{ displayDate(entry.created_at) }}
-                                    </time>
-                                </span>
-                            </span>
                                 <span
                                     v-if="entry.excerpt"
                                     class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600"
                                 >
-                                {{ entry.excerpt }}
+                                    {{ entry.excerpt }}
+                                </span>
                             </span>
                         </button>
                     </Tab>
