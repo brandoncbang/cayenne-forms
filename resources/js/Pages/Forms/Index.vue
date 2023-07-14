@@ -42,7 +42,7 @@ const props = defineProps({
                             </a>
                         </p>
                         <p class="mt-1 flex text-xs leading-5 text-gray-500">
-                            <span class="relative truncate hover:underline">
+                            <span class="relative truncate">
                                 {{ route('forms.entries.store', { form }) }}
                             </span>
                         </p>
@@ -50,7 +50,7 @@ const props = defineProps({
                     <div class="flex items-center gap-x-4">
                         <div v-if="form.entries_count > 0" class="hidden sm:flex sm:flex-col sm:items-end">
                             <p class="text-sm leading-6 text-gray-900">
-                                {{ displayNumber(form.entries_count) }} {{ form.entries_count > 1 ? 'Entries' : 'Entry' }}
+                                {{ displayNumber(form.entries_count) }} {{ form.entries_count > 1 ? 'entries' : 'entry' }}
                             </p>
                             <p class="mt-1 text-xs leading-5 text-gray-500">
                                 Last entry at
