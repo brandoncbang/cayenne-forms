@@ -8,12 +8,12 @@ class StoreEntryRequest extends FormRequest
 {
     public function ip(): string
     {
-        return config('cayenne.remove_sensitive_info', true) ? '(Removed for privacy)' : parent::ip();
+        return config('cayenne.demo') ? '(Removed for privacy)' : parent::ip();
     }
 
     public function userAgent(): string
     {
-        return config('cayenne.remove_sensitive_info', true) ? '(Removed for privacy)' : parent::userAgent();
+        return config('cayenne.demo') ? '(Removed for privacy)' : parent::userAgent();
     }
 
     /**

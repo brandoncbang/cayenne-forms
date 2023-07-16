@@ -118,7 +118,7 @@ class ReceiveEntryTest extends TestCase
     #[Test]
     public function sensitive_info_can_be_redacted()
     {
-        config(['cayenne.remove_sensitive_info' => true]);
+        config(['cayenne.demo' => true]);
 
         $form = Form::factory()->create();
 

@@ -6,14 +6,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Remove Sensitive Info
+    | Demo
     |--------------------------------------------------------------------------
     |
-    | Determines whether a client's IP address & user agent will be redacted
-    | when receiving a form entry.
+    | Determines whether to enable the following features:
+    |
+    | - Seeder that generates a default account with forms & entries
+    | - Scheduled task that wipes database and reseeds daily
+    | - Page with a form pointing to an endpoint to let users test out Form
+    |   Entries
+    | - Redaction of sensitive Form Entry info
     |
     */
 
-    'remove_sensitive_info' => env('CAYENNE_REMOVE_SENSITIVE_INFO', false),
+    'demo' => env('CAYENNE_DEMO', false),
 
 ];
