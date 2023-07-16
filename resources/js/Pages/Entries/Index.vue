@@ -149,11 +149,9 @@ const hideEntryPanel = () => {
                                     <span class="text-sm font-semibold leading-6 text-gray-900">
                                         <span class="sr-only">Show entry, </span>{{ entry.title }}
                                     </span>
-                                    <span class="flex-none text-xs text-gray-600">
-                                        <time :datetime="entry.created_at">
-                                            {{ displayDate(entry.created_at) }}
-                                        </time>
-                                    </span>
+                                    <time :datetime="entry.created_at" class="flex-none text-xs text-gray-600">
+                                        {{ displayDate(entry.created_at) }}
+                                    </time>
                                 </span>
                                 <span
                                     v-if="entry.excerpt"
