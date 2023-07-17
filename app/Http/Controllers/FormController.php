@@ -7,6 +7,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use Inertia\Response as InertiaResponse;
 
@@ -63,6 +64,10 @@ class FormController extends Controller
     /** @throws AuthorizationException */
     public function update(Request $request, Form $form): RedirectResponse
     {
+        if (App::environment('demo') && $form->isDemoForm()) {
+            return redirect()->back()->with('error', 'Updating the demo form is not allowed.');
+        }
+
         $this->authorize('update', $form);
 
         $form->update(
@@ -74,7 +79,7 @@ class FormController extends Controller
                         ->ignore($form),
                 ],
                 'success_url' => ['nullable', 'max:255', 'url'],
-                'sends_notifications' => ['required', 'boolean'],
+                'sends_notifications' => ['nullable', 'boolean'],
                 'honeypot_field' => ['nullable', 'max:255'],
             ]),
         );

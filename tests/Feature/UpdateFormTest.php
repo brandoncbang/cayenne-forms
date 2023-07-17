@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Form;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -296,5 +298,64 @@ class UpdateFormTest extends TestCase
         $response->assertRedirect("/forms/{$form->uuid}/entries");
 
         $this->assertNull($form->honeypot_field);
+    }
+
+    #[Test]
+    public function user_can_update_the_demo_form_outside_a_demo_environment()
+    {
+        $form = Form::factory()->create([
+            'name' => 'Demo Form',
+            'success_url' => '/demo/success',
+        ]);
+
+        $response = $this
+            ->actingAs($form->user)
+            ->from("/forms/{$form->uuid}/edit")
+            ->patch("/forms/{$form->uuid}", [
+                'name' => 'Some Other Name',
+                'success_url' => 'https://example.com/some-other-url',
+            ]);
+
+        $form->refresh();
+
+        $response
+            ->assertRedirect("/forms/{$form->uuid}/entries")
+            ->assertSessionMissing('error');
+
+        $this->assertEquals('Some Other Name', $form->name);
+        $this->assertEquals('https://example.com/some-other-url', $form->success_url);
+    }
+
+    #[Test]
+    public function user_cannot_update_the_demo_form_in_a_demo_environment()
+    {
+        // Since the demo is public, we at least don't want users to be able to update the Form used for the demo page,
+        // since doing so could break it at best and redirect other users to harmful URLs at worst. Other forms can be
+        // fair game though.
+
+        App::detectEnvironment(fn () => 'demo');
+
+        $form = Form::factory()->create([
+            'name' => 'Demo Form',
+            'success_url' => '/demo/success',
+        ]);
+
+        $response = $this
+            ->actingAs($form->user)
+            ->withoutMiddleware([VerifyCsrfToken::class])
+            ->from("/forms/{$form->uuid}/edit")
+            ->patch("/forms/{$form->uuid}", [
+                'name' => 'Some Other Name',
+                'success_url' => 'https://example.com/some-possibly-malicious-redirect',
+            ]);
+
+        $form->refresh();
+
+        $response
+            ->assertRedirect("/forms/{$form->uuid}/edit")
+            ->assertSessionHas('error', 'Updating the demo form is not allowed.');
+
+        $this->assertEquals('Demo Form', $form->name);
+        $this->assertEquals('/demo/success', $form->success_url);
     }
 }

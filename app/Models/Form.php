@@ -63,4 +63,9 @@ class Form extends Model
     {
         return $this->entries()->one()->latestOfMany();
     }
+
+    public function isDemoForm(): bool
+    {
+        return $this->name === 'Demo Form';
+    }
 }

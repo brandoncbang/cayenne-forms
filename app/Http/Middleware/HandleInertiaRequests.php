@@ -35,6 +35,10 @@ class HandleInertiaRequests extends Middleware
             'app.name' => config('app.name'),
             'app.repoUrl' => config('cayenne.repo_url'),
             'auth.user' => $request->user(),
+            'flash' => array_filter([
+                'message' => fn () => $request->session()->get('message'),
+                'error' => fn () => $request->session()->get('error'),
+            ]),
             'navigation' => array_filter([
                 [
                     'name' => __('Forms'),

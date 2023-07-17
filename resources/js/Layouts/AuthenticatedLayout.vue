@@ -5,6 +5,8 @@ import { Head, Link } from '@inertiajs/vue3';
 import InitialsAvatar from '@/Components/Dashboard/InitialsAvatar.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { useSlots } from 'vue';
+import FlashMessage from '@/Components/Dashboard/FlashMessage.vue';
+import FlashError from '@/Components/Dashboard/FlashError.vue';
 
 defineProps({
     title: String,
@@ -143,6 +145,13 @@ const slots = useSlots();
             </header>
             <main class="flex-1">
                 <div class="min-h-full mx-auto max-w-7xl py-8 sm:px-6 lg:px-8">
+                    <FlashMessage v-if="$page.props.flash.message" class="mb-6">
+                        {{ $page.props.flash.message }}
+                    </FlashMessage>
+                    <FlashError v-if="$page.props.flash.error" class="mb-6">
+                        {{ $page.props.flash.error }}
+                    </FlashError>
+
                     <slot />
                 </div>
             </main>
