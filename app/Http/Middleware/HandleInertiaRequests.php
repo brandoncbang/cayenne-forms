@@ -39,6 +39,13 @@ class HandleInertiaRequests extends Middleware
                 'href' => route('forms.index'),
                 'current' => $request->route()->named('forms.*'),
             ],
+            'navigation.1' => fn () => config('cayenne.demo')
+                ? [
+                    'name' => __('Demo Form'),
+                    'href' => route('demo.form'),
+                    'current' => false,
+                ]
+                : null,
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

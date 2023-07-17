@@ -45,5 +45,12 @@ class DemoSeeder extends Seeder
                     ->trashed()
                     ->create();
             });
+
+        Form::factory()
+            ->for($user)
+            ->create([
+                'name' => 'Demo Form',
+                'success_url' => '/demo/success',
+            ]);
     }
 }

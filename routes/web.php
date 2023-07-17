@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DemoFormController;
 use App\Http\Controllers\EntryController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\InviteController;
@@ -18,6 +19,11 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+if (config('cayenne.demo')) {
+    Route::get('/demo', [DemoFormController::class, 'show'])->name('demo.form');
+    Route::get('/demo/success', [DemoFormController::class, 'success'])->name('demo.success');
+}
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/forms', [FormController::class, 'index'])->name('forms.index');
