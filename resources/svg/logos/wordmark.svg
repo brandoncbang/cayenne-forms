@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="272.10001"
+   viewBox="0 0 211.66667 71.993129"
+   version="1.1"
+   id="svg1381"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logo-with-name.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1383"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="1.087256"
+     inkscape:cx="530.2339"
+     inkscape:cy="183.02957"
+     inkscape:window-width="2560"
+     inkscape:window-height="1015"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1001"
+       originx="0"
+       originy="-82.595624" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1378" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g1252"
+       transform="matrix(0.58844261,0,0,0.58844261,-18.348334,-41.329219)">
+      <text
+         xml:space="preserve"
+         style="font-size:36.8957px;letter-spacing:0px;fill:#2ca055;stroke:#ffffff;stroke-width:0.676255;paint-order:stroke markers fill"
+         x="241.25235"
+         y="145.27393"
+         id="text1601"><tspan
+           sodipodi:role="line"
+           id="tspan1599"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:36.8957px;font-family:Figtree;-inkscape-font-specification:'Figtree Bold';text-align:center;text-anchor:middle;fill:#111827;fill-opacity:1;stroke-width:0.676255"
+           x="241.25235"
+           y="145.27393">Cayenne Forms</tspan></text>
+      <circle
+         style="fill:#6366f1;fill-opacity:1;stroke:none;stroke-width:3.15602;stroke-dasharray:none"
+         id="path2707-1-3"
+         cx="73.763634"
+         cy="131.40752"
+         r="24.597136" />
+      <path
+         style="fill:#ffffff;stroke-width:0.363057"
+         d="m 63.548443,131.7215 c -0.01743,0.11563 -1.553803,1.23302 -1.308025,2.5124 0.787244,4.32679 5.45702,8.79779 8.100437,10.78098 2.018224,1.49256 5.348657,2.48903 5.534007,2.30374 0.212077,-0.18535 -1.409242,-1.74089 -3.824777,-5.42936 -3.788986,-6.58969 -4.398084,-9.34612 -5.698265,-10.15236 -0.917687,-0.43055 -1.899519,-0.15398 -1.9865,-0.24229 -0.04067,-0.0523 -0.421831,-0.26263 -0.866032,-2.08598 -0.27483,-1.12755 -0.52235,-3.49782 -0.586206,-3.49602 -0.06914,-0.0116 -0.636872,1.14591 -0.703459,1.40401 -0.07553,0.2144 -0.09761,1.35642 0.374187,2.54993 0.549077,1.2713 0.975615,1.74281 0.964401,1.85495 z"
+         id="path991-6"
+         sodipodi:nodetypes="cccccccscccc" />
+      <use
+         x="0"
+         y="0"
+         xlink:href="#path991-6"
+         id="use1328-7"
+         transform="translate(5.2627765,-5.5194809)" />
+      <use
+         x="0"
+         y="0"
+         xlink:href="#path991-6"
+         id="use1330-5"
+         transform="translate(11.103163,-10.461355)" />
+    </g>
+  </g>
+</svg>
