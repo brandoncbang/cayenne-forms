@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,9 +20,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        $defaultCredentials = App::environment('demo')
+            ? [
+                'email' => 'johndoe@example.com',
+                'password' => 'password',
+            ]
+            : null;
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'defaultCredentials' => $defaultCredentials,
         ]);
     }
 

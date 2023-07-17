@@ -4,16 +4,19 @@ import { InformationCircleIcon } from '@heroicons/vue/20/solid';
 import { Link, useForm } from '@inertiajs/vue3';
 import TextField from '@/Components/Dashboard/TextField.vue';
 
-defineProps({
+const props = defineProps({
     canResetPassword: {
         type: Boolean,
     },
     status: {
         type: String,
     },
+    defaultCredentials: {
+        type: Object,
+    }
 });
 
-const form = useForm({
+const form = useForm(props.defaultCredentials ?? {
     email: '',
     password: '',
     remember: false,
