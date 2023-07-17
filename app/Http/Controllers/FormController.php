@@ -90,6 +90,10 @@ class FormController extends Controller
     /** @throws AuthorizationException */
     public function destroy(Form $form): RedirectResponse
     {
+        if (App::environment('demo') && $form->isDemoForm()) {
+            return redirect()->back()->with('error', 'Deleting the demo form is not allowed.');
+        }
+
         $this->authorize('delete', $form);
 
         $form->delete();

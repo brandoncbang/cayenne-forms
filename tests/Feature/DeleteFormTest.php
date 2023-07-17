@@ -23,7 +23,7 @@ class DeleteFormTest extends TestCase
             ->actingAs($form->user)
             ->delete("/forms/{$form->uuid}");
 
-        $response->assertRedirect("/forms");
+        $response->assertRedirect('/forms');
 
         $this->assertDatabaseEmpty(Form::class);
     }
@@ -52,6 +52,45 @@ class DeleteFormTest extends TestCase
             ->delete("/forms/{$form->uuid}");
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
+
+        $this->assertDatabaseCount(Form::class, 1);
+    }
+
+    #[Test]
+    public function user_can_delete_the_demo_form_outside_a_demo_environment()
+    {
+        $form = Form::factory()->create([
+            'name' => 'Demo Form',
+        ]);
+
+        $response = $this
+            ->actingAs($form->user)
+            ->delete("/forms/{$form->uuid}");
+
+        $response
+            ->assertRedirect('/forms')
+            ->assertSessionMissing('error');
+
+        $this->assertDatabaseEmpty(Form::class);
+    }
+
+    #[Test]
+    public function user_cannot_delete_the_demo_form_in_a_demo_environment()
+    {
+        $this->withEnvironment('demo');
+
+        $form = Form::factory()->create([
+            'name' => 'Demo Form',
+        ]);
+
+        $response = $this
+            ->actingAs($form->user)
+            ->from("/forms/{$form->uuid}/edit")
+            ->delete("/forms/{$form->uuid}");
+
+        $response
+            ->assertRedirect("/forms/{$form->uuid}/edit")
+            ->assertSessionHas('error', 'Deleting the demo form is not allowed.');
 
         $this->assertDatabaseCount(Form::class, 1);
     }
