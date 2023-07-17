@@ -51,4 +51,48 @@ class PasswordUpdateTest extends TestCase
             ->assertSessionHasErrors('current_password')
             ->assertRedirect('/profile');
     }
+
+    #[Test]
+    public function demo_user_password_can_be_updated_outside_demo_environment()
+    {
+        $user = User::factory()->create([
+            'email' => 'johndoe@example.com',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->put('/password', [
+                'current_password' => 'password',
+                'password' => 'new-password',
+                'password_confirmation' => 'new-password',
+            ]);
+
+        $response
+            ->assertSessionMissing('error')
+            ->assertRedirect('/profile');
+    }
+
+    #[Test]
+    public function demo_user_password_cannot_be_updated_in_demo_environment()
+    {
+        $this->withEnvironment('demo');
+
+        $user = User::factory()->create([
+            'email' => 'johndoe@example.com',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->put('/password', [
+                'current_password' => 'password',
+                'password' => 'new-password',
+                'password_confirmation' => 'new-password',
+            ]);
+
+        $response
+            ->assertSessionHas('error', 'Updating the demo user is not allowed.')
+            ->assertRedirect('/profile');
+    }
 }

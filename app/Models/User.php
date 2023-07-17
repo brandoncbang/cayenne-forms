@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Form::class);
     }
+
+    public function isDemoUser(): bool
+    {
+        return $this->email === 'johndoe@example.com';
+    }
 }

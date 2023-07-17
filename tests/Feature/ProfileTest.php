@@ -47,6 +47,59 @@ class ProfileTest extends TestCase
     }
 
     #[Test]
+    public function demo_user_profile_information_can_be_updated_outside_a_demo_environment()
+    {
+        $user = User::factory()->create([
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->patch('/profile', [
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+
+        $response
+            ->assertSessionMissing('error')
+            ->assertRedirect('/profile');
+
+        $user->refresh();
+
+        $this->assertEquals('Test User', $user->name);
+        $this->assertEquals('test@example.com', $user->email);
+    }
+
+    #[Test]
+    public function demo_user_profile_information_cannot_be_updated_in_a_demo_environment()
+    {
+        $this->withEnvironment('demo');
+
+        $user = User::factory()->create([
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->patch('/profile', [
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+
+        $response
+            ->assertSessionHas('error', 'Updating the demo user is not allowed.')
+            ->assertRedirect('/profile');
+
+        $user->refresh();
+
+        $this->assertEquals('John Doe', $user->name);
+        $this->assertEquals('johndoe@example.com', $user->email);
+    }
+
+    #[Test]
     public function email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
         $user = User::factory()->create();
@@ -98,6 +151,51 @@ class ProfileTest extends TestCase
 
         $response
             ->assertSessionHasErrors('password')
+            ->assertRedirect('/profile');
+
+        $this->assertNotNull($user->fresh());
+    }
+
+    #[Test]
+    public function demo_user_can_delete_their_account_outside_a_demo_environment(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'johndoe@example.com',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->delete('/profile', [
+                'password' => 'password',
+            ]);
+
+        $response
+            ->assertSessionMissing('error')
+            ->assertRedirect('/');
+
+        $this->assertGuest();
+        $this->assertNull($user->fresh());
+    }
+
+    #[Test]
+    public function demo_user_cannot_delete_their_account_in_a_demo_environment(): void
+    {
+        $this->withEnvironment('demo');
+
+        $user = User::factory()->create([
+            'email' => 'johndoe@example.com',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->delete('/profile', [
+                'password' => 'password',
+            ]);
+
+        $response
+            ->assertSessionHas('error', 'Deleting the demo user is not allowed.')
             ->assertRedirect('/profile');
 
         $this->assertNotNull($user->fresh());

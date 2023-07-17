@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -29,6 +30,10 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        if (App::environment('demo') && $request->user()->isDemoUser()) {
+            return redirect()->back()->with('error', 'Updating the demo user is not allowed.');
+        }
+
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -45,6 +50,10 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        if (App::environment('demo') && $request->user()->isDemoUser()) {
+            return redirect()->back()->with('error', 'Deleting the demo user is not allowed.');
+        }
+
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
