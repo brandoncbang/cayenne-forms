@@ -2,13 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Form;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\App;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -333,7 +331,7 @@ class UpdateFormTest extends TestCase
         // since doing so could break it at best and redirect other users to harmful URLs at worst. Other forms can be
         // fair game though.
 
-        App::detectEnvironment(fn () => 'demo');
+        $this->withEnvironment('demo');
 
         $form = Form::factory()->create([
             'name' => 'Demo Form',
@@ -342,7 +340,6 @@ class UpdateFormTest extends TestCase
 
         $response = $this
             ->actingAs($form->user)
-            ->withoutMiddleware([VerifyCsrfToken::class])
             ->from("/forms/{$form->uuid}/edit")
             ->patch("/forms/{$form->uuid}", [
                 'name' => 'Some Other Name',
