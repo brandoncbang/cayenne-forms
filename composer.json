@@ -1,7 +1,7 @@
 {
     "name": "brandoncbang/cayenne-forms",
     "type": "project",
-    "description": "Self-hosted form backend for static sites.",
+    "description": " An open-source form backend for all your static sites.",
     "keywords": ["laravel", "form", "backend", "static", "site"],
     "license": "MIT",
     "require": {
