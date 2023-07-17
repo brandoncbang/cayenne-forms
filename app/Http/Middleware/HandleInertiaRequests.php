@@ -31,19 +31,13 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'app' => [
-                'name' => config('app.name'),
-                'repoUrl' => config('cayenne.repo_url'),
-            ],
-            'auth' => [
-                'user' => $request->user(),
-            ],
-            'navigation' => [
-                [
-                    'name' => __('Forms'),
-                    'href' => route('forms.index'),
-                    'current' => $request->route()->named('forms.*'),
-                ],
+            'app.name' => config('app.name'),
+            'app.repoUrl' => config('cayenne.repo_url'),
+            'auth.user' => $request->user(),
+            'navigation.0' => [
+                'name' => __('Forms'),
+                'href' => route('forms.index'),
+                'current' => $request->route()->named('forms.*'),
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
