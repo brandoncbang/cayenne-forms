@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 
-// TODO: Maybe allow switching forms?
 defineProps({
     form: Object,
     entry: Object,
