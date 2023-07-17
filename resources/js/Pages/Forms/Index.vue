@@ -36,10 +36,10 @@ const props = defineProps({
                 >
                     <div class="min-w-0">
                         <p class="text-sm font-semibold leading-6 text-gray-900">
-                            <a :href="route('forms.entries.index', { form })">
+                            <Link :href="route('forms.entries.index', { form })">
                                 <span class="absolute inset-x-0 -top-px bottom-0"></span>
                                 {{ form.name }}
-                            </a>
+                            </Link>
                         </p>
                         <p class="mt-1 flex text-xs leading-5 text-gray-500">
                             <span class="relative truncate">
