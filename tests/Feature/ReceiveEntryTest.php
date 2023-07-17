@@ -8,6 +8,7 @@ use App\Models\Form;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -116,9 +117,9 @@ class ReceiveEntryTest extends TestCase
     }
 
     #[Test]
-    public function sensitive_info_can_be_redacted()
+    public function sensitive_info_is_redacted_in_a_demo_environment()
     {
-        config(['cayenne.demo' => true]);
+        App::detectEnvironment(fn () => 'demo');
 
         $form = Form::factory()->create();
 

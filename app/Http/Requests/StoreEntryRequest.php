@@ -3,17 +3,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
 
 class StoreEntryRequest extends FormRequest
 {
     public function ip(): string
     {
-        return config('cayenne.demo') ? '(Removed for privacy)' : parent::ip();
+        return App::environment('demo') ? '(Removed for privacy)' : parent::ip();
     }
 
     public function userAgent(): string
     {
-        return config('cayenne.demo') ? '(Removed for privacy)' : parent::userAgent();
+        return App::environment('demo') ? '(Removed for privacy)' : parent::userAgent();
     }
 
     /**

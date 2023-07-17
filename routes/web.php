@@ -20,10 +20,10 @@ use Inertia\Inertia;
 |
 */
 
-if (config('cayenne.demo')) {
+Route::middleware(['demo'])->group(function () {
     Route::get('/demo', [DemoFormController::class, 'show'])->name('demo.form');
     Route::get('/demo/success', [DemoFormController::class, 'success'])->name('demo.success');
-}
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/forms', [FormController::class, 'index'])->name('forms.index');

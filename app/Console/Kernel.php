@@ -6,6 +6,7 @@ use Database\Seeders\DemoSeeder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Console\Migrations\FreshCommand;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\App;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        if (config('cayenne.demo')) {
+        if (App::environment('demo')) {
             $schedule
                 ->command(FreshCommand::class, ['--seed', '--seeder' => DemoSeeder::class])
                 ->hourly();
