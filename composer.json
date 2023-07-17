@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "brandoncbang/cayenne-forms",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Self-hosted form backend for static sites.",
+    "keywords": ["laravel", "form", "backend", "static", "site"],
     "license": "MIT",
     "require": {
         "php": "^8.1",
