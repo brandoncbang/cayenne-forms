@@ -2,6 +2,8 @@
 
 # About Cayenne Forms
 Cayenne Forms is a self-hosted web app that lets you keep your websites simple, while maintaining control of your data.
+By self-hosting a single Cayenne Forms instance, you can have as many form-enabled (often free to host) static sites as
+you want.
 
 ## Features
 - **Self-hosted:** Keep ownership over your websites' data.

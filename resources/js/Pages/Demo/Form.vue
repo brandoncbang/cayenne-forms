@@ -24,10 +24,9 @@ defineProps({
                         Demo form page
                     </h2>
                     <p class="mt-2 text-lg leading-8 text-gray-600">
-                        This page is meant to demonstrate how you can submit entries to your form endpoints. By
-                        self-hosting a single Cayenne Forms instance, you can have as many form-enabled (often free to
-                        host) static sites as you want, while maintaining control of your data.
+                        This page is meant to demonstrate how you can submit entries to your form endpoints.
                     </p>
+
                     <p class="mt-2 text-lg leading-8 text-gray-600">
                         Just point any HTML form to your form endpoint's URL to start getting entries. This form is
                         configured to send entries
