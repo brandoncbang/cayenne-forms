@@ -143,6 +143,8 @@ class ReceiveEntryTest extends TestCase
     #[Test]
     public function entry_is_trashed_when_the_form_honeypot_field_is_filled()
     {
+        Mail::fake();
+
         $form = Form::factory()->create([
             'honeypot_field' => 'url',
         ]);
@@ -162,6 +164,8 @@ class ReceiveEntryTest extends TestCase
 
         $entry = Entry::withTrashed()->first();
         $this->assertNotNull($entry->deleted_at);
+
+        Mail::assertNotSent(NewEntryEmail::class);
     }
 
     #[Test]

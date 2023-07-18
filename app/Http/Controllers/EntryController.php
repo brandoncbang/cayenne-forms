@@ -47,7 +47,7 @@ class EntryController extends Controller
             'deleted_at' => $entryIsSpam ? now() : null,
         ]);
 
-        if ($form->sends_notifications) {
+        if (! $entry->trashed() && $form->sends_notifications) {
             Mail::to($form->user)->send(new NewEntryEmail($entry));
         }
 
